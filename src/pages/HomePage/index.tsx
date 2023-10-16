@@ -2,8 +2,12 @@ import Footer from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { AdsListComponent } from "../../components/AdsList";
 import { StyledSection } from "./styled";
+import { useContext } from "react";
+import { CartContext } from "../../providers/CartProvider";
+
 
 export const HomePage = () => {
+  const { ads } = useContext(CartContext);
   return (
     <>
       <Header />
@@ -15,7 +19,7 @@ export const HomePage = () => {
           </div>
         </StyledSection>
         <section>
-          <AdsListComponent />
+          <AdsListComponent ads={ads}/>
         </section>
       </main>
       <Footer />

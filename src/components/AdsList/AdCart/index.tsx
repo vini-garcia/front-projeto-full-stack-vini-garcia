@@ -1,17 +1,30 @@
-// import { Link, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { IAd } from "../../../providers/CartProvider";
 import { UserIcon } from "../../Usericon";
 import { StyledCart } from "./style";
+import { UserContext } from "../../../providers/UserContext/UserContext";
 
-export const AdCart = ({ ad }: any) => {
+export interface IAdCart {
+  ad: IAd;
+}
+
+export const AdCart = ({ ad }: IAdCart) => {
+  const { user } = useContext(UserContext);
+  // console.log(ad.user.id);
+  // console.log(user?.id);
+
+
   return (
     <StyledCart>
-      <div className="image">
+      <div className="image_container">
         <img src={ad.images[0].gallery_image_url} alt={ad.model_car} />
       </div>
-      <h2 className="card-title">{ad.car_brand} - {ad.model_car}</h2>
-      <p className="card-description">{ad.description}</p>
+      <h2 className="ad_title">
+        {ad.car_brand} - {ad.model_car}
+      </h2>
+      <p className="ad_description">{ad.description}</p>
       <UserIcon name={ad.user.name} />
-      <div className="card-bottom">
+      <div className="user_container">
         <div>
           <div>
             <h6>{Number(ad.mileage).toLocaleString("pt-br") + " km"}</h6>
@@ -24,47 +37,11 @@ export const AdCart = ({ ad }: any) => {
             })}
           </h2>
         </div>
-
-        {/* {user?.id && (
-          <div className="buttonsCard">
-            <button
-              onClick={() => {
-                // setModalIsOpen(true);
-              }}
-            >
-              Editar
-            </button>
-
-            <div onClick={() => Navigate(`/announcements/${ad.id}`)}>
-              <button>Ver detalhes</button>
-            </div>
-          </div>
-        )} */}
       </div>
-
-      {/* <Button text={"Editar"} type={"button"} classType="buttonDeleteAds"/> */}
+      <div>
+        {ad.user.id == user?.id ? <button>Editar</button> : null}
+        {ad.user.id == user?.id ? <button>Deletar</button> : null}
+      </div>
     </StyledCart>
-
-    // <StyledCart>
-    //   <div>
-    //     <img src={ad.images[0].gallery_image_url} alt="" />
-    //     <div>
-    //       <h1>{ad.model_car}</h1>
-    //       <p>{ad.description}</p>
-    //     </div>
-    //     <div>
-    //       <h1>{ad.user.name}</h1>
-    //     </div>
-    //     <div>
-    //       <div>
-    //         <p>{ad.mileage}</p>
-    //         <p>{ad.year_built}</p>
-    //       </div>
-    //       <div>
-    //         <h3>{ad.price}</h3>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </StyledCart>
   );
 };

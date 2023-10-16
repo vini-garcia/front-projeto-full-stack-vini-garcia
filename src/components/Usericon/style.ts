@@ -3,17 +3,9 @@ import styled from "styled-components";
 export const UserIconStyled = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 
-  #link {
-    transition: 500ms;
-
-    &:hover {
-      color: var(--brand-1);
-    }
-  }
-
-  .card-ads-icon {
+  div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,7 +20,7 @@ export const UserIconStyled = styled.div`
     font-weight: 500;
   }
 
-  .card-ads-name {
+  h3 {
     color: var(--grey-2);
     font-family: "Inter", sans-serif;
     font-size: 10px;

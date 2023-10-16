@@ -1,15 +1,17 @@
-import { useContext } from "react";
-import { CartContext } from "../../providers/CartProvider";
+import { IAd } from "../../providers/CartProvider";
 import { AdCart } from "./AdCart";
 import { StyledAdList } from "./style";
 
-export const AdsListComponent = () => {
-  const { ads } = useContext(CartContext);
+export interface IAdCart {
+  ads: IAd[];
+}
+
+export const AdsListComponent = ({ ads }: any) => {
   return (
     <StyledAdList>
       {ads.map((ad) => {
         return <AdCart key={ad.id} ad={ad} />;
-      })} 
+      })}
     </StyledAdList>
-  )
+  );
 };

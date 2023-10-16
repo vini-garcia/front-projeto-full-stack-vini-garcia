@@ -3,15 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 
 import { useState } from "react";
-import { z } from "zod";
-import { loginSchema } from "../../pages/Login/schemas";
-import { TRegister } from "../../pages/Register/schemas";
+import { TLoginFormSchema } from "../../components/Form/LoginForm/loginFormSchema";
+import { TRegister } from "../../components/Form/RegisterUserForm/registerUserFormSchema";
 
 interface UserProviderProps {
   children: React.ReactNode;
 }
-
-export type TLogin = z.infer<typeof loginSchema>;
 
 interface IUser {
   id: string;
@@ -26,26 +23,24 @@ interface IUser {
 }
 
 interface UserProviderValues {
-  signIn: (data: TLogin) => void;
+  signIn: (data: TLoginFormSchema) => void;
   registerSubmit: (formData: TRegister) => void;
   logout: () => void;
+  user: IUser | null;
 }
 
 export const UserContext = createContext<UserProviderValues>({} as UserProviderValues);
 
 export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState(null as IUser | null);
-  
   const navigate = useNavigate();
-
-  async function signIn(formData: TLogin) {
+  
+  async function signIn(formData: TLoginFormSchema) {
     try {
       const response = await api.post("/login", formData);
-      const token: string = response.data.token;
       setUser(response.data.user);
-      api.defaults.headers.common.authorization = `Bearer ${token}`;
       localStorage.setItem("@token", response.data.token);
-
+      await getUser(response.data.token);
       setTimeout(() => {
         navigate("/");
       }, 2000);
@@ -53,6 +48,21 @@ export function UserProvider({ children }: UserProviderProps) {
       console.log(error);
     }
   }
+
+  const getUser = async (token: string) => {
+   
+      const userFound = await api.get(`users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      } );
+      setUser(userFound.data);
+    
+  };
+
+  // useEffect(() => {
+  //   getUser();
+  // });
 
   async function registerSubmit(formData: TRegister) {
     try {
@@ -79,6 +89,7 @@ export function UserProvider({ children }: UserProviderProps) {
     <UserContext.Provider
       value={{
         signIn,
+        user,
         registerSubmit,
         logout,
       }}

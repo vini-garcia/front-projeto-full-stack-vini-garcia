@@ -5,7 +5,7 @@ import logo from "../../assets/logoWhite.svg";
 const Footer = () => {
   return (
     <StyledFooter>
-      <img src={logo} alt="background image" />
+      <img src={logo} alt="Motors Shop logo" />
       <h4>© 2022 - Todos os direitos reservados.</h4>
       <a href={"#"}>
         <FaAngleUp />
@@ -13,4 +13,5 @@ const Footer = () => {
     </StyledFooter>
   );
 };
+
 export default Footer;

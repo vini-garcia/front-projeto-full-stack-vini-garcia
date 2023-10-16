@@ -25,8 +25,7 @@ export const registerSchema = z
     path: ["confirm"],
   });
 
-export const registerSchemaRequest = z
-.object({
+export const registerSchemaRequest = z.object({
   address: z.object({
     post_code: z.string().nonempty("Cep é obrigatório."),
     state: z.string().nonempty("Estado é obrigatório"),
@@ -43,12 +42,9 @@ export const registerSchemaRequest = z
   dob: z.string(),
   description: z.string(),
   password: z.string().nonempty("Senha é obrigatória."),
-})
-
+});
 
 export const editSchemaRequest = registerSchemaRequest.partial();
 
 export type TRegister = z.infer<typeof registerSchema>;
 export type TRegisterReq = z.infer<typeof registerSchemaRequest>;
-
-
