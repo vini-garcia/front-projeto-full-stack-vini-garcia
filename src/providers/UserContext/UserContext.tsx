@@ -34,7 +34,7 @@ export const UserContext = createContext<UserProviderValues>({} as UserProviderV
 export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState(null as IUser | null);
   const navigate = useNavigate();
-  
+
   async function signIn(formData: TLoginFormSchema) {
     try {
       const response = await api.post("/login", formData);
@@ -50,19 +50,13 @@ export function UserProvider({ children }: UserProviderProps) {
   }
 
   const getUser = async (token: string) => {
-   
-      const userFound = await api.get(`users/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      } );
-      setUser(userFound.data);
-    
+    const userFound = await api.get(`users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setUser(userFound.data);
   };
-
-  // useEffect(() => {
-  //   getUser();
-  // });
 
   async function registerSubmit(formData: TRegister) {
     try {

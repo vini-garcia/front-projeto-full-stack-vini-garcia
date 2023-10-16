@@ -3,6 +3,7 @@ import { IAd } from "../../../providers/CartProvider";
 import { UserIcon } from "../../Usericon";
 import { StyledCart } from "./style";
 import { UserContext } from "../../../providers/UserContext/UserContext";
+import { Link } from "react-router-dom";
 
 export interface IAdCart {
   ad: IAd;
@@ -10,9 +11,6 @@ export interface IAdCart {
 
 export const AdCart = ({ ad }: IAdCart) => {
   const { user } = useContext(UserContext);
-  // console.log(ad.user.id);
-  // console.log(user?.id);
-
 
   return (
     <StyledCart>
@@ -40,7 +38,7 @@ export const AdCart = ({ ad }: IAdCart) => {
       </div>
       <div>
         {ad.user.id == user?.id ? <button>Editar</button> : null}
-        {ad.user.id == user?.id ? <button>Deletar</button> : null}
+        <Link to={`/announcements/${ad.id}`}>Ver detalhes</Link>
       </div>
     </StyledCart>
   );

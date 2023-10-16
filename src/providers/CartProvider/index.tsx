@@ -69,6 +69,9 @@ export interface IAdResponse extends IAdRequest {
 
 interface IAdContext {
   ads: IAdResponse[];
+  deleteAd: (id: string) => Promise<void>;
+  getAd: (id: string) => Promise<IAdResponse | undefined>;
+  getCommentsFromAd: (id: string) => Promise<any | undefined>;
 }
 
 export const CartContext = createContext({} as IAdContext);
@@ -89,10 +92,56 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
     loadAds();
   }, []);
 
+  const getAd = async (id: string) => {
+    try {
+      const { data } = await api.get<IAdResponse>(`/announcements/${id}`);
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getCommentsFromAd = async (id: string) => {
+    try {
+      const { data } = await api.get<any>(`/comments/${id}`);
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // const createNewAd = async (newData: IAdResponse) => {
+  //   try {
+  //     const { data } = await api.post<IAdResponse | undefined>("/announcements/", newData);
+  //     return data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // const editAd = async (data: Partial<IAdResponse>, id: string) => {
+  //   try {
+  //     await api.patch(`/announcements/${id}`, data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const deleteAd = async (id: string) => {
+    try {
+      await api.delete(`/announcements/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
         ads,
+        deleteAd,
+        getAd,
+        getCommentsFromAd,
       }}
     >
       {children}
