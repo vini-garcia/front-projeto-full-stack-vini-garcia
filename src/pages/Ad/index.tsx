@@ -9,8 +9,6 @@ export const AdPage = () => {
   const [ad, setAd] = useState<any>();
   const [comments, setComments] = useState<any>([]);
 
-  // const comments = ad?.comments;
-  // console.log(comments[0].user.name);
   const { getAd, getCommentsFromAd } = useContext(CartContext);
 
   const { id } = useParams();
