@@ -7,11 +7,11 @@ function App() {
   return (
     <>
       <GlobalStyled />
-      <CartProvider>
-        <UserProvider>
+      <UserProvider>
+        <CartProvider>
           <MainRoutes />
-        </UserProvider>
-      </CartProvider>
+        </CartProvider>
+      </UserProvider>
     </>
   );
 }

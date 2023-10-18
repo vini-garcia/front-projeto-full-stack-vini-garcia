@@ -1,19 +1,28 @@
 import styled from "styled-components";
 
 export const StyledCart = styled.li`
+  width: 19.5rem;
+  height: 21.875rem;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 16px;
-  width: 320px;
-  height: max-content;
-  border-radius: 6px;
+  align-items: center;
 
   .image_container > img {
     width: 320px;
     height: 152px;
     object-fit: cover;
     border-radius: 6px;
+  }
+
+  .ad_info_container {
+    padding-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
   }
 
   .ad_title {
@@ -25,7 +34,25 @@ export const StyledCart = styled.li`
     color: var(--grey-2);
   }
 
-  .user_container {
+  .seller_info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--grey-2);
+    font-size: 0.875rem;
+  }
+  .seller_info > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-50);
+    background-color: var(--random-1);
+    color: var(--white);
+  }
+
+  .ad_extra_info_container {
     display: flex;
     flex-direction: column;
 
@@ -51,9 +78,5 @@ export const StyledCart = styled.li`
         }
       }
     }
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 `;

@@ -6,7 +6,7 @@ export interface IAdCart {
   ads: IAd[];
 }
 
-export const AdsListComponent = ({ ads }: any) => {
+export const AdsListComponent = ({ ads }: IAdCart) => {
   return (
     <StyledAdList>
       {ads.map((ad) => {

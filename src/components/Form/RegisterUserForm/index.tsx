@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { UserContext } from "../../../providers/UserContext/UserContext";
 import { useForm } from "react-hook-form";
 import { Input } from "../Input";
+import { StyledSection } from "./style";
+import { FormButton } from "../../Buttons";
 
 export const RegisterUserForm = () => {
   const { registerSubmit } = useContext(UserContext);
@@ -17,79 +19,135 @@ export const RegisterUserForm = () => {
   });
 
   return (
-    <form onSubmit={handleSubmit(registerSubmit)}>
-      <Input id="name" placeholder="Ex: Vinicius Garcia" type="text" {...register("name")} />
-      {errors ? <span>{errors.name?.message}</span> : null}
-      <Input id="email" placeholder="Ex: mail@mail.com" type="email" {...register("email")} />
-      {errors ? <span>{errors.email?.message}</span> : null}
-      <Input id="cpf" placeholder="Ex: 000.000.000-00" type="text" {...register("cpf")} />
-      {errors ? <span>{errors.cpf?.message}</span> : null}
-      <Input
-        id="phone_number"
-        placeholder="Ex: 41999998888"
-        type="text"
-        {...register("phone_number")}
-      />
-      {errors ? <span>{errors.phone_number?.message}</span> : null}
-      <Input id="dob" placeholder="Ex: 100291" type="text" {...register("dob")} />
-      {errors ? <span>{errors.dob?.message}</span> : null}
-      <Input
-        id="description"
-        placeholder="Ex: Vendedor confiável"
-        type="text"
-        {...register("description")}
-      />
-      {errors ? <span>{errors.description?.message}</span> : null}
-      <Input
-        id="type_of_account"
-        placeholder="Ex: buyer"
-        type="text"
-        {...register("type_of_account")}
-      />
-      {errors ? <span>{errors.type_of_account?.message}</span> : null}
-      <Input
-        id="post_code"
-        placeholder="Ex: 87888097"
-        type="text"
-        {...register("address.post_code")}
-      />
-      {errors ? <span>{errors.address?.post_code?.message}</span> : null}
-      <Input id="state" placeholder="Ex: Paraná" type="text" {...register("address.state")} />
-      {errors ? <span>{errors.address?.state?.message}</span> : null}
-      <Input id="city" placeholder="Ex: Cidade" type="text" {...register("address.city")} />
-      {errors ? <span>{errors.address?.city?.message}</span> : null}
-      <Input
-        id="street_name"
-        placeholder="Ex: Rua Dois"
-        type="text"
-        {...register("address.street_name")}
-      />
-      {errors ? <span>{errors.address?.street_name?.message}</span> : null}
-      <Input
-        id="street_number"
-        placeholder="Ex: 213"
-        type="text"
-        {...register("address.street_number")}
-      />
-      {errors ? <span>{errors.address?.street_number?.message}</span> : null}
-      <Input
-        id="complement"
-        placeholder="Ex: segundo andar"
-        type="text"
-        {...register("address.complement")}
-      />
-      {errors ? <span>{errors.address?.complement?.message}</span> : null}
-      <Input id="password" placeholder="Ex: password" type="password" {...register("password")} />
-      {errors ? <span>{errors.password?.message}</span> : null}
-      <Input
-        id="confirm"
-        placeholder="Ex: confirm password"
-        type="password"
-        {...register("confirm")}
-      />
-      {errors ? <span>{errors.confirm?.message}</span> : null}
+    <StyledSection>
+      <h2>Cadastro</h2>
+      <form onSubmit={handleSubmit(registerSubmit)}>
+        <h4>Informações pessoais</h4>
+        <Input
+          id="name"
+          placeholder="Ex: Vinicius Garcia"
+          type="text"
+          label={"Nome"}
+          error={errors.name?.message}
+          {...register("name")}
+        />
+        <Input
+          id="email"
+          placeholder="Ex: mail@mail.com"
+          type="email"
+          label={"Email"}
+          error={errors.email?.message}
+          {...register("email")}
+        />
+        <Input
+          id="cpf"
+          placeholder="Ex: 000.000.000-00"
+          type="text"
+          label={"CPF"}
+          error={errors.cpf?.message}
+          {...register("cpf")}
+        />
+        <Input
+          id="phone_number"
+          placeholder="Ex: 41999998888"
+          type="text"
+          label={"Celular"}
+          error={errors.phone_number?.message}
+          {...register("phone_number")}
+        />
+        <Input
+          id="dob"
+          placeholder="Ex: 100291"
+          type="text"
+          label={"Data de nascimento"}
+          error={errors.dob?.message}
+          {...register("dob")}
+        />
+        <Input
+          id="description"
+          placeholder="Ex: Vendedor confiável"
+          type="text"
+          label={"Descrição"}
+          error={errors.description?.message}
+          {...register("description")}
+        />
+        <h4>Informações de endereço</h4>
+        <Input
+          id="post_code"
+          placeholder="Ex: 87888097"
+          type="text"
+          label={"CEP"}
+          error={errors.address?.post_code?.message}
+          {...register("address.post_code")}
+        />
+        <div className="container_one">
+          <Input
+            id="city"
+            placeholder="Ex: Cidade"
+            type="text"
+            label={"Cidade"}
+            error={errors.address?.city?.message}
+            {...register("address.city")}
+          />
+          <Input
+            id="state"
+            placeholder="Ex: Paraná"
+            type="text"
+            label={"Estado"}
+            error={errors.address?.state?.message}
+            {...register("address.state")}
+          />
+        </div>
+        <Input
+          id="street_name"
+          placeholder="Ex: Rua Dois"
+          type="text"
+          label={"Rua"}
+          error={errors.address?.street_name?.message}
+          {...register("address.street_name")}
+        />
+        <div className="container_two">
+          <Input
+            id="street_number"
+            placeholder="Ex: 213"
+            type="text"
+            label={"Número"}
+            error={errors.address?.street_number?.message}
+            {...register("address.street_number")}
+          />
+          <Input
+            id="complement"
+            placeholder="Ex: segundo andar"
+            type="text"
+            label={"Complemento"}
+            error={errors.address?.complement?.message}
+            {...register("address.complement")}
+          />
+        </div>
+        <h4 className="formSectionTitles">Tipo de conta</h4>
+        <div className="btns_container">
+          <FormButton text="Comprador" customClass="brandDarkButton" />
+          <FormButton text="Anunciante" customClass="lightButton1" />
+        </div>
+        <Input
+          id="password"
+          placeholder="Ex: password"
+          type="password"
+          label={"Senha"}
+          error={errors.password?.message}
+          {...register("password")}
+        />
+        <Input
+          id="confirm"
+          placeholder="Ex: confirm password"
+          type="password"
+          label={"Confirmar senha"}
+          error={errors.confirm?.message}
+          {...register("confirm")}
+        />
 
-      <button>Entrar</button>
-    </form>
+        <button>Entrar</button>
+      </form>
+    </StyledSection>
   );
 };

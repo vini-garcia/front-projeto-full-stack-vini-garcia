@@ -2,12 +2,11 @@ import { Link, useParams } from "react-router-dom";
 import { Header } from "../../components/Header";
 import Footer from "../../components/Footer";
 import { useContext, useEffect, useState } from "react";
-import { CartContext, IAdResponse } from "../../providers/CartProvider";
-import { UserIcon } from "../../components/Usericon";
+import { CartContext, IAd, IComment } from "../../providers/CartProvider";
 
 export const AdPage = () => {
-  const [ad, setAd] = useState<any>();
-  const [comments, setComments] = useState<any>([]);
+  const [ad, setAd] = useState<IAd>();
+  const [comments, setComments] = useState<IComment[]>([]);
 
   const { getAd, getCommentsFromAd } = useContext(CartContext);
 
@@ -15,26 +14,24 @@ export const AdPage = () => {
 
   useEffect(() => {
     const getCurrentAd = async () => {
-      const ad: any = await getAd(id);
+      const ad: IAd | undefined = await getAd(id!);
       setAd(ad);
-
-     
     };
 
     getCurrentAd();
   }, [getAd, id]);
 
-
   useEffect(() => {
     const getCurrentAdComments = async () => {
-      const comments: any = await getCommentsFromAd(id);
+      const comments: IComment[] = await getCommentsFromAd(id!);
       setComments(comments);
-
-     
     };
 
     getCurrentAdComments();
   }, [getCommentsFromAd, id]);
+
+  // const splitName = ad!.user?.name.split(" ");
+  // const initialsLetters = `${splitName[0][0]}${splitName[splitName.length - 1][0]}`;
 
   return (
     <>
@@ -75,7 +72,10 @@ export const AdPage = () => {
                 {comments.map((comment) => {
                   return (
                     <li key={comment.id}>
-                      <UserIcon name={comment.user.name} />
+                      {/* <span className="seller_info">
+                        <div>{initialsLetters}</div>
+                        <h4>{comment.user.name}</h4>
+                      </span> */}
                       <p>{comment.created_at}</p>
                       <p>{comment.comment}</p>
                     </li>
@@ -92,9 +92,12 @@ export const AdPage = () => {
               </ul>
             </div>
             <div>
-              <UserIcon name={ad.user.name} />
-              <h2>{ad.user.name}</h2>
-              <p>{ad.user.description}</p>
+              <span className="seller_info">
+                {/* <div>{initialsLetters}</div> */}
+                <h4>{ad.user.name}</h4>
+              </span>
+              <h2>{ad?.user.name}</h2>
+              <p>{ad?.user.description}</p>
               <Link to={`/announcements/user/${ad.user.id}`}>Ver todos os anúncios</Link>
             </div>
           </section>

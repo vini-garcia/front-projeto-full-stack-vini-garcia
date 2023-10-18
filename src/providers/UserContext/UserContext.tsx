@@ -26,14 +26,17 @@ interface UserProviderValues {
   signIn: (data: TLoginFormSchema) => void;
   registerSubmit: (formData: TRegister) => void;
   logout: () => void;
-  user: IUser | null;
+  user: IUser | null | undefined;
+  setIsSuccessModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSuccessModalOpen: boolean;
 }
 
 export const UserContext = createContext<UserProviderValues>({} as UserProviderValues);
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [user, setUser] = useState(null as IUser | null);
+  const [user, setUser] = useState<IUser | null | undefined>();
   const navigate = useNavigate();
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   async function signIn(formData: TLoginFormSchema) {
     try {
@@ -41,6 +44,7 @@ export function UserProvider({ children }: UserProviderProps) {
       setUser(response.data.user);
       localStorage.setItem("@token", response.data.token);
       await getUser(response.data.token);
+
       setTimeout(() => {
         navigate("/");
       }, 2000);
@@ -50,7 +54,7 @@ export function UserProvider({ children }: UserProviderProps) {
   }
 
   const getUser = async (token: string) => {
-    const userFound = await api.get(`users/me`, {
+    const userFound = await api.get<IUser>(`users/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -60,11 +64,11 @@ export function UserProvider({ children }: UserProviderProps) {
 
   async function registerSubmit(formData: TRegister) {
     try {
-      await api.post("/users", formData);
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+      await api.post<IUser>("/users", formData);
+      setIsSuccessModalOpen(true);
+      // setTimeout(() => {
+      //   navigate("/login");
+      // }, 3000);
     } catch (error) {
       console.log(error);
     }
@@ -86,6 +90,8 @@ export function UserProvider({ children }: UserProviderProps) {
         user,
         registerSubmit,
         logout,
+        setIsSuccessModalOpen,
+        isSuccessModalOpen,
       }}
     >
       {children}
