@@ -4,7 +4,12 @@ import { StyledSectionBackGround } from "./style";
 import { UserContext } from "../../../providers/UserContext/UserContext";
 import { useContext } from "react";
 
-export const SuccessModal = () => {
+export interface IModal {
+  text: string;
+  link: string
+}
+
+export const SuccessModal = ({ text, link }: IModal) => {
   const { setIsSuccessModalOpen } = useContext(UserContext);
 
   return (
@@ -16,9 +21,9 @@ export const SuccessModal = () => {
             <img onClick={() => setIsSuccessModalOpen(false)} src={closeBtn} alt="Close Button" />
           </div>
           <div>
-            <h1>Sua conta foi criada com sucesso!</h1>
+            <h1>{text}</h1>
             <p>Agora você poderá ver seus negócios crescendo em grande escala</p>
-            <Link to="/login">Ir para o login</Link>
+            {link == "null" ? null : <Link to={link}>Ir para o login</Link>}
           </div>
         </dialog>
       </StyledSectionBackGround>

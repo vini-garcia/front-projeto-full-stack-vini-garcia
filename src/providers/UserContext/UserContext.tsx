@@ -1,10 +1,15 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 
 import { useState } from "react";
 import { TLoginFormSchema } from "../../components/Form/LoginForm/loginFormSchema";
-import { TRegister } from "../../components/Form/RegisterUserForm/registerUserFormSchema";
+import {
+  TEditUpdate,
+  TEditUser,
+  TRegister,
+  editSchemaRequest,
+} from "../../components/Form/RegisterUserForm/registerUserFormSchema";
 
 interface UserProviderProps {
   children: React.ReactNode;
@@ -22,21 +27,51 @@ interface IUser {
   password: string;
 }
 
+interface IUserWithAddress {
+  id: string;
+  name: string;
+  email: string;
+  cpf: string;
+  phone_number: string;
+  dob: string;
+  description: string;
+  type_of_account: string;
+  password: string;
+  address: {
+    id: string;
+    post_code: string;
+    state: string;
+    city: string;
+    street_name: string;
+    street_number: string;
+    address_complement: string;
+  };
+}
+
 interface UserProviderValues {
   signIn: (data: TLoginFormSchema) => void;
   registerSubmit: (formData: TRegister) => void;
   logout: () => void;
-  user: IUser | null | undefined;
+  user: IUserWithAddress | null | undefined;
   setIsSuccessModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isSuccessModalOpen: boolean;
+  editUser: (formData: TEditUser) => Promise<void>;
+  isEditUSerModalOpen: boolean;
+  setIsEditUSerModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditAddressModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditAddressModalOpen: boolean;
 }
 
 export const UserContext = createContext<UserProviderValues>({} as UserProviderValues);
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [user, setUser] = useState<IUser | null | undefined>();
+  const [user, setUser] = useState<IUserWithAddress | null | undefined>();
+
   const navigate = useNavigate();
+  const token = localStorage.getItem("@token");
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isEditUSerModalOpen, setIsEditUSerModalOpen] = useState(false);
+  const [isEditAddressModalOpen, setIsEditAddressModalOpen] = useState(false);
 
   async function signIn(formData: TLoginFormSchema) {
     try {
@@ -44,17 +79,18 @@ export function UserProvider({ children }: UserProviderProps) {
       setUser(response.data.user);
       localStorage.setItem("@token", response.data.token);
       await getUser(response.data.token);
+      navigate("/");
 
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 2000);
     } catch (error: unknown) {
       console.log(error);
     }
   }
 
   const getUser = async (token: string) => {
-    const userFound = await api.get<IUser>(`users/me`, {
+    const userFound = await api.get<IUserWithAddress>(`users/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -62,10 +98,72 @@ export function UserProvider({ children }: UserProviderProps) {
     setUser(userFound.data);
   };
 
+  useEffect(() => {
+    if (token) {
+      getUser(token);
+    }
+  });
+
   async function registerSubmit(formData: TRegister) {
     try {
       await api.post<IUser>("/users", formData);
       setIsSuccessModalOpen(true);
+      // setTimeout(() => {
+      //   navigate("/login");
+      // }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  UserContext;
+
+  async function editUser(formData: Partial<TEditUpdate>) {
+    if (formData.name == "") {
+      delete formData.name;
+    }
+    if (formData.email == "") {
+      delete formData.email;
+    }
+    if (formData.cpf == "") {
+      delete formData.cpf;
+    }
+    if (formData.phone_number == "") {
+      delete formData.phone_number;
+    }
+    if (formData.description == "") {
+      delete formData.description;
+    }
+    if (formData.dob == "") {
+      delete formData.dob;
+    }
+    if (formData.address?.post_code == "") {
+      delete formData.address?.post_code;
+    }
+    if (formData.address?.state == "") {
+      delete formData.address?.state;
+    }
+    if (formData.address?.city == "") {
+      delete formData.address?.city;
+    }
+    if (formData.address?.street_name == "") {
+      delete formData.address?.street_name;
+    }
+    if (formData.address?.street_number == "") {
+      delete formData.address?.street_number;
+    }
+    if (formData.address?.address_complement == "") {
+      delete formData.address?.address_complement;
+    }
+
+    try {
+      await api.patch(`/users/${user?.id}`, editSchemaRequest.parse(formData), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsEditUSerModalOpen(false);
+      setIsEditAddressModalOpen(false);
+      // setIsSuccessModalOpen(true);
       // setTimeout(() => {
       //   navigate("/login");
       // }, 3000);
@@ -92,6 +190,11 @@ export function UserProvider({ children }: UserProviderProps) {
         logout,
         setIsSuccessModalOpen,
         isSuccessModalOpen,
+        editUser,
+        setIsEditUSerModalOpen,
+        isEditUSerModalOpen,
+        setIsEditAddressModalOpen,
+        isEditAddressModalOpen,
       }}
     >
       {children}

@@ -25,7 +25,7 @@ export const CreateAdModal = () => {
             <h1>Criar anúncio</h1>
             <img onClick={() => setIsCreateAdModalOpen(false)} src={closeBtn} alt="Close Button" />
           </div>
-          <h2>Informações do ceículo</h2>
+          <h2>Informações do veículo</h2>
           <form onSubmit={handleSubmit(createNewAd)}>
             <Input
               id="car_brand"

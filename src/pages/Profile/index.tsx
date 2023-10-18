@@ -6,10 +6,17 @@ import { AdsListComponent } from "../../components/AdsList";
 import { api } from "../../services/api";
 import { CartContext, IAd } from "../../providers/CartProvider";
 import { CreateAdModal } from "../../components/Modais/CreateAd";
+import { SuccessModal } from "../../components/Modais/Success";
+import { UserContext } from "../../providers/UserContext/UserContext";
+import { EditUserModal } from "../../components/Modais/EditUser";
+import { EditAddressModal } from "../../components/Modais/EditAddress";
+import { EditAdModal } from "../../components/Modais/EditAd";
 
 export const Profile = () => {
   const { id } = useParams();
-  const { isCreateAdModalOpen } = useContext(CartContext);
+  const { isCreateAdModalOpen, isEditAdModalOpen } = useContext(CartContext);
+  const { isSuccessModalOpen, isEditUSerModalOpen, setIsEditUSerModalOpen, setIsEditAddressModalOpen, isEditAddressModalOpen } = useContext(UserContext);
+
 
 
   const [ads, setAds] = useState<IAd[]>([]);
@@ -35,6 +42,10 @@ export const Profile = () => {
     <>
       <Header />
       {isCreateAdModalOpen ? <CreateAdModal /> : null}
+      {isEditUSerModalOpen ? <EditUserModal /> : null}
+      {isEditAdModalOpen ? <EditAdModal /> : null}
+      {isEditAddressModalOpen ? <EditAddressModal /> : null}
+      {isSuccessModalOpen ? <SuccessModal link={"null"} text={"Seu anúncio foi criado com sucesso!"} /> : null}
       <main>
         <section>
           <div></div>

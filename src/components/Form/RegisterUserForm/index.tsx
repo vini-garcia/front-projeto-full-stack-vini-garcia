@@ -120,8 +120,8 @@ export const RegisterUserForm = () => {
             placeholder="Ex: segundo andar"
             type="text"
             label={"Complemento"}
-            error={errors.address?.complement?.message}
-            {...register("address.complement")}
+            error={errors.address?.address_complement?.message}
+            {...register("address.address_complement")}
           />
         </div>
         <h4 className="formSectionTitles">Tipo de conta</h4>

@@ -23,8 +23,9 @@ export const AdPage = () => {
 
   useEffect(() => {
     const getCurrentAdComments = async () => {
-      const comments: IComment[] = await getCommentsFromAd(id!);
-      setComments(comments);
+      const comments = await getCommentsFromAd(id!);
+
+      setComments(comments!);
     };
 
     getCurrentAdComments();

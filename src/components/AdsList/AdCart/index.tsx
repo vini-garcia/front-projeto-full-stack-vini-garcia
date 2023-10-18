@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { IAd } from "../../../providers/CartProvider";
+import { CartContext, IAd } from "../../../providers/CartProvider";
 import { StyledCart } from "./style";
 import { UserContext } from "../../../providers/UserContext/UserContext";
 import { Link } from "react-router-dom";
@@ -10,6 +10,13 @@ export interface IAdCart {
 
 export const AdCart = ({ ad }: IAdCart) => {
   const { user } = useContext(UserContext);
+  const { setIsEditAdModalOpen, setCurrentAd } = useContext(CartContext);
+
+  const handleButton = () => {
+    setIsEditAdModalOpen(true)
+    setCurrentAd(ad)
+  };
+
 
   const splitName = ad.user.name.split(" ");
   const initialsLetters = `${splitName[0][0]}${splitName[splitName.length - 1][0]}`;
@@ -44,7 +51,7 @@ export const AdCart = ({ ad }: IAdCart) => {
         </div>
       </div>
       <div>
-        {ad.user.id == user?.id ? <button>Editar</button> : null}
+        {ad.user.id == user?.id ? <button onClick={() => handleButton()}>Editar</button> : null}
         <Link to={`/announcements/${ad.id}`}>Ver detalhes</Link>
       </div>
     </StyledCart>
