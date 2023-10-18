@@ -8,7 +8,8 @@ import { TAdEdit, editAdSchema } from "./editAdSchema";
 import { CartContext } from "../../../providers/CartProvider";
 
 export const EditAdModal = () => {
-  const { currentAd, setIsEditAdModalOpen, editAd, setIsDeleteAdModalOpen } = useContext(CartContext);
+  const { currentAd, setIsEditAdModalOpen, editAd, setIsDeleteAdModalOpen } =
+    useContext(CartContext);
 
   const {
     register,
@@ -20,8 +21,8 @@ export const EditAdModal = () => {
 
   const handleEditAdSubmit = (data: TAdEdit) => {
     const parsedData = editAdSchema.parse(data);
-    
-    editAd(parsedData, currentAd!.id)
+
+    editAd(parsedData, currentAd!.id);
   };
 
   const handleButton = () => {
@@ -34,11 +35,7 @@ export const EditAdModal = () => {
         <dialog>
           <div>
             <h1>Editar endereço</h1>
-            <img
-              onClick={() => setIsEditAdModalOpen(false)}
-              src={closeBtn}
-              alt="Close Button"
-            />
+            <img onClick={() => setIsEditAdModalOpen(false)} src={closeBtn} alt="Close Button" />
           </div>
           <h2>Informações de endereço</h2>
           <form onSubmit={handleSubmit(handleEditAdSubmit)}>

@@ -9,16 +9,16 @@ export const StyledPageNotFound = styled.section`
   width: 100vw;
   height: 100vh;
 
-  .ancorToHome{
+  .ancorToHome {
     font-size: 45px;
     color: rgba(19, 36, 44, 0.3);
     font-weight: 800;
     left: 43%;
-    top:80%;
+    top: 80%;
     position: absolute;
   }
 
-  .ancorToHome:hover{
+  .ancorToHome:hover {
     color: rgba(19, 36, 44, 0.6);
   }
 

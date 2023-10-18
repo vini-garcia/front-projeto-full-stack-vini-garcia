@@ -41,8 +41,16 @@ export const Profile = () => {
 
   const ad = ads[0];
 
-  // const splitName = ad?.user.name.split(" ");
-  // const initialsLetters = `${splitName[0][0]}${splitName[splitName.length - 1][0]}`;
+  const nameSub = (nameSurname: string) => {
+    return nameSurname
+      .split(" ")
+      .map((letter: string, index: number) => {
+        if (index === 0 || index === nameSurname.split(" ").length - 1) {
+          return letter[0].toUpperCase();
+        }
+      })
+      .join("");
+  };
 
   return (
     <>
@@ -60,7 +68,7 @@ export const Profile = () => {
         <section>
           <div></div>
           <span className="seller_info">
-            {/* <div>{initialsLetters}</div> */}
+            <div>{nameSub(ad.user.name!)}</div>
             {ad == null ? <h2>Carregando</h2> : <h4>{ad.user.name}</h4>}
           </span>
           <div>

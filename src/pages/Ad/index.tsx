@@ -4,12 +4,14 @@ import Footer from "../../components/Footer";
 import { useContext, useEffect, useState } from "react";
 import { CartContext, IAd, IComment } from "../../providers/CartProvider";
 import { StyledMain } from "./style";
+import { ImageModal } from "../../components/Modais/OpenImage";
 
 export const AdPage = () => {
   const [ad, setAd] = useState<IAd>();
   const [comments, setComments] = useState<IComment[]>([]);
 
-  const { getAd, getCommentsFromAd } = useContext(CartContext);
+  const { getAd, getCommentsFromAd, isImageModalOpen, setIsImageModalOpen, setCurrentImage } =
+    useContext(CartContext);
 
   const { id } = useParams();
 
@@ -32,14 +34,26 @@ export const AdPage = () => {
     getCurrentAdComments();
   }, [getCommentsFromAd, id]);
 
-//  console.log(ad.images)
+  const handleButton = (urlIMage: string) => {
+    setIsImageModalOpen(true);
+    setCurrentImage(urlIMage);
+  };
 
-  // const splitName = ad!.user?.name.split(" ");
-  // const initialsLetters = `${splitName[0][0]}${splitName[splitName.length - 1][0]}`;
+  const nameSub = (nameSurname: string) => {
+    return nameSurname
+      .split(" ")
+      .map((letter: string, index: number) => {
+        if (index === 0 || index === nameSurname.split(" ").length - 1) {
+          return letter[0].toUpperCase();
+        }
+      })
+      .join("");
+  };
 
   return (
     <>
       <Header />
+      {isImageModalOpen ? <ImageModal /> : null}
       {ad == null ? (
         <h2>Carregando</h2>
       ) : (
@@ -76,10 +90,10 @@ export const AdPage = () => {
                 {comments.map((comment) => {
                   return (
                     <li key={comment.id}>
-                      {/* <span className="seller_info">
-                        <div>{initialsLetters}</div>
+                      <span className="seller_info">
+                        <div>{nameSub(comment.user.name!)}</div>
                         <h4>{comment.user.name}</h4>
-                      </span> */}
+                      </span>
                       <p>{comment.created_at}</p>
                       <p>{comment.comment}</p>
                     </li>
@@ -93,9 +107,11 @@ export const AdPage = () => {
               <h3>Fotos</h3>
               <ul>
                 {ad.images.map((image) => {
-                  return <li key={image.id}>
-                    <img src={image.gallery_image_url} alt="Imagem veículo" />
-                  </li>;
+                  return (
+                    <li key={image.id} onClick={() => handleButton(image.gallery_image_url)}>
+                      <img src={image.gallery_image_url} alt="Imagem veículo" />
+                    </li>
+                  );
                 })}
               </ul>
             </div>

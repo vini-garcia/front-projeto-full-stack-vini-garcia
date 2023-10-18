@@ -6,7 +6,7 @@ import { useContext } from "react";
 
 export interface IModal {
   text: string;
-  link: string
+  link: string;
 }
 
 export const SuccessModal = ({ text, link }: IModal) => {

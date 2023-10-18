@@ -13,13 +13,20 @@ export const AdCart = ({ ad }: IAdCart) => {
   const { setIsEditAdModalOpen, setCurrentAd } = useContext(CartContext);
 
   const handleButton = () => {
-    setIsEditAdModalOpen(true)
-    setCurrentAd(ad)
+    setIsEditAdModalOpen(true);
+    setCurrentAd(ad);
   };
 
-
-  const splitName = ad.user.name.split(" ");
-  const initialsLetters = `${splitName[0][0]}${splitName[splitName.length - 1][0]}`;
+  const nameSub = (nameSurname: string) => {
+    return nameSurname
+      .split(" ")
+      .map((letter: string, index: number) => {
+        if (index === 0 || index === nameSurname.split(" ").length - 1) {
+          return letter[0].toUpperCase();
+        }
+      })
+      .join("");
+  };
 
   return (
     <StyledCart>
@@ -32,7 +39,7 @@ export const AdCart = ({ ad }: IAdCart) => {
         </h2>
         <p className="ad_description">{ad.description.substring(0, 60)}...</p>
         <span className="seller_info">
-          <div>{initialsLetters}</div>
+          <div>{nameSub(ad.user.name!)}</div>
           <h4>{ad.user.name}</h4>
         </span>
         <div className="ad_extra_info_container">

@@ -14,9 +14,7 @@ export const StyledSectionBackGround = styled.section`
   /* background: linear-gradient(180deg, rgba(0, 0, 0, 0.29) 0%, #000000 100%); */
 `;
 
-
 export const StyledSectionAds = styled.section`
   width: 100%;
   height: 900px;
-
 `;

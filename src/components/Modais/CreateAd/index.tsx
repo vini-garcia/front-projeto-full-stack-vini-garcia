@@ -51,7 +51,7 @@ export const CreateAdModal = () => {
                 label={"Ano"}
                 error={errors.year_built?.message}
                 {...register("year_built", {
-                    setValueAs: v => Number(v)
+                  setValueAs: (v) => Number(v),
                 })}
               />
               <Input
@@ -71,7 +71,7 @@ export const CreateAdModal = () => {
                 label={"Quilometragem"}
                 error={errors.mileage?.message}
                 {...register("mileage", {
-                    setValueAs: v => Number(v)
+                  setValueAs: (v) => Number(v),
                 })}
               />
               <Input
@@ -91,7 +91,7 @@ export const CreateAdModal = () => {
                 label={"Preço tabela FIPE"}
                 error={errors.fipe_price?.message}
                 {...register("fipe_price", {
-                    setValueAs: v => Number(v)
+                  setValueAs: (v) => Number(v),
                 })}
               />
               <Input
@@ -101,7 +101,7 @@ export const CreateAdModal = () => {
                 label={"Preço"}
                 error={errors.price?.message}
                 {...register("price", {
-                    setValueAs: v => Number(v)
+                  setValueAs: (v) => Number(v),
                 })}
               />
             </div>

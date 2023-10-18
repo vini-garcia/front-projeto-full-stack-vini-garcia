@@ -46,14 +46,16 @@ export const registerSchemaRequest = z.object({
 });
 
 export const editSchemaRequest = z.object({
-  address: z.object({
-    post_code: z.string().optional(),
-    state: z.string().optional(),
-    city: z.string().optional(),
-    street_name: z.string().optional(),
-    street_number: z.string().optional(),
-    address_complement: z.string().optional(),
-  }).optional(),
+  address: z
+    .object({
+      post_code: z.string().optional(),
+      state: z.string().optional(),
+      city: z.string().optional(),
+      street_name: z.string().optional(),
+      street_number: z.string().optional(),
+      address_complement: z.string().optional(),
+    })
+    .optional(),
   name: z.string().optional(),
   email: z.string().optional(),
   type_of_account: z.string().optional(),
@@ -63,7 +65,6 @@ export const editSchemaRequest = z.object({
   description: z.string().optional(),
   password: z.string().optional(),
 });
-
 
 export type TEditUser = z.infer<typeof editSchemaRequest>;
 export type TEditUpdate = DeepPartial<TEditUser>;

@@ -113,6 +113,10 @@ interface IAdContext {
   isEditAdModalOpen: boolean;
   setIsDeleteAdModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isDeleteAdModalOpen: boolean;
+  setIsImageModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isImageModalOpen: boolean;
+  setCurrentImage: React.Dispatch<React.SetStateAction<string | undefined>>;
+  currentImage: string | undefined;
 }
 
 export const CartContext = createContext({} as IAdContext);
@@ -123,8 +127,10 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   const [isCreateAdModalOpen, setIsCreateAdModalOpen] = useState(false);
   const [isEditAdModalOpen, setIsEditAdModalOpen] = useState(false);
   const [isDeleteAdModalOpen, setIsDeleteAdModalOpen] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const token = localStorage.getItem("@token");
   const { setIsSuccessModalOpen } = useContext(UserContext);
+  const [currentImage, setCurrentImage] = useState<string>();
 
   async function loadAds() {
     try {
@@ -248,6 +254,10 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
         currentAd,
         setIsDeleteAdModalOpen,
         isDeleteAdModalOpen,
+        setIsImageModalOpen,
+        isImageModalOpen,
+        setCurrentImage,
+        currentImage,
       }}
     >
       {children}

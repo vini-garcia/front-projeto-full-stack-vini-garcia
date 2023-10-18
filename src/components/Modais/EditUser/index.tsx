@@ -5,10 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { UserContext } from "../../../providers/UserContext/UserContext";
-import {
-  TEditUser,
-  editSchemaRequest,
-} from "../../Form/RegisterUserForm/registerUserFormSchema";
+import { TEditUser, editSchemaRequest } from "../../Form/RegisterUserForm/registerUserFormSchema";
 
 export const EditUserModal = () => {
   const { user, editUser, setIsEditUSerModalOpen } = useContext(UserContext);
@@ -86,8 +83,8 @@ export const EditUserModal = () => {
             <div>
               <button>Salvar alterações</button>
             </div>
-              {/* <button>Excluir perfil</button> */}
-              {/* <button onClick={() => setIsEditUSerModalOpen(false)}>Cancelar</button> */}
+            {/* <button>Excluir perfil</button> */}
+            {/* <button onClick={() => setIsEditUSerModalOpen(false)}>Cancelar</button> */}
           </form>
         </dialog>
       </StyledSectionBackGround>

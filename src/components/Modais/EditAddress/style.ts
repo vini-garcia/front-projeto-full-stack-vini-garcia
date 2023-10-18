@@ -15,7 +15,7 @@ export const StyledSectionBackGround = styled.div`
   right: 0;
   left: 0;
 
-  dialog{
+  dialog {
     display: flex;
   }
-`
+`;
