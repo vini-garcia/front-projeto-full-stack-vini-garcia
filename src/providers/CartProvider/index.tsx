@@ -111,6 +111,8 @@ interface IAdContext {
   createNewAd: (payload: IAdRequest) => Promise<IAdResponse | undefined>;
   setIsEditAdModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isEditAdModalOpen: boolean;
+  setIsDeleteAdModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isDeleteAdModalOpen: boolean;
 }
 
 export const CartContext = createContext({} as IAdContext);
@@ -120,6 +122,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   const [currentAd, setCurrentAd] = useState<IAdResponse>();
   const [isCreateAdModalOpen, setIsCreateAdModalOpen] = useState(false);
   const [isEditAdModalOpen, setIsEditAdModalOpen] = useState(false);
+  const [isDeleteAdModalOpen, setIsDeleteAdModalOpen] = useState(false);
   const token = localStorage.getItem("@token");
   const { setIsSuccessModalOpen } = useContext(UserContext);
 
@@ -134,7 +137,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
 
   useEffect(() => {
     loadAds();
-  }, []);
+  });
 
   const getAd = async (id: string) => {
     try {
@@ -217,7 +220,12 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
 
   const deleteAd = async (id: string) => {
     try {
-      await api.delete(`/announcements/${id}`);
+      await api.delete(`/announcements/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsDeleteAdModalOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -238,6 +246,8 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
         isEditAdModalOpen,
         setCurrentAd,
         currentAd,
+        setIsDeleteAdModalOpen,
+        isDeleteAdModalOpen,
       }}
     >
       {children}

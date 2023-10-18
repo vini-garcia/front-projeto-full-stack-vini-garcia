@@ -60,6 +60,9 @@ interface UserProviderValues {
   setIsEditUSerModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditAddressModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isEditAddressModalOpen: boolean;
+  setIsDeleteAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isDeleteAccountModalOpen: boolean;
+  deleteAccount: (id: string) => Promise<void>;
 }
 
 export const UserContext = createContext<UserProviderValues>({} as UserProviderValues);
@@ -72,6 +75,7 @@ export function UserProvider({ children }: UserProviderProps) {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isEditUSerModalOpen, setIsEditUSerModalOpen] = useState(false);
   const [isEditAddressModalOpen, setIsEditAddressModalOpen] = useState(false);
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false);
 
   async function signIn(formData: TLoginFormSchema) {
     try {
@@ -172,6 +176,20 @@ export function UserProvider({ children }: UserProviderProps) {
     }
   }
 
+  const deleteAccount = async (id: string) => {
+    try {
+      await api.delete(`/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsDeleteAccountModalOpen(false);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   function logout() {
     const keysToRemove = ["@token"];
     keysToRemove.forEach((key) => localStorage.removeItem(key));
@@ -195,6 +213,9 @@ export function UserProvider({ children }: UserProviderProps) {
         isEditUSerModalOpen,
         setIsEditAddressModalOpen,
         isEditAddressModalOpen,
+        setIsDeleteAccountModalOpen,
+        isDeleteAccountModalOpen,
+        deleteAccount,
       }}
     >
       {children}

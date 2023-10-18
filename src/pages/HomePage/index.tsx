@@ -5,13 +5,15 @@ import { StyledSectionAds, StyledSectionBackGround } from "./styled";
 import { useContext } from "react";
 import { CartContext } from "../../providers/CartProvider";
 import { EditAdModal } from "../../components/Modais/EditAd";
+import { DeleteAdModal } from "../../components/Modais/DeleteAd";
 
 export const HomePage = () => {
-  const { ads, isEditAdModalOpen } = useContext(CartContext);
+  const { ads, isEditAdModalOpen, isDeleteAdModalOpen } = useContext(CartContext);
   return (
     <>
       <Header />
       {isEditAdModalOpen ? <EditAdModal /> : null}
+      {isDeleteAdModalOpen ? <DeleteAdModal /> : null}
       <main>
         <StyledSectionBackGround>
           <div>

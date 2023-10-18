@@ -21,7 +21,7 @@ export const EditUserModal = () => {
     resolver: zodResolver(editSchemaRequest),
   });
 
-  const handleRegisterSubmit = (data: TEditUser) => {
+  const handleEditUserSubmit = (data: TEditUser) => {
     const parsedData = editSchemaRequest.parse(data);
     editUser(parsedData);
   };
@@ -34,7 +34,7 @@ export const EditUserModal = () => {
             <img onClick={() => setIsEditUSerModalOpen(false)} src={closeBtn} alt="Close Button" />
           </div>
           <h2>Informações pessoais</h2>
-          <form onSubmit={handleSubmit(handleRegisterSubmit)}>
+          <form onSubmit={handleSubmit(handleEditUserSubmit)}>
             <Input
               id="name"
               placeholder={user?.name}

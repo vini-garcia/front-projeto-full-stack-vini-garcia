@@ -8,7 +8,7 @@ import { TAdEdit, editAdSchema } from "./editAdSchema";
 import { CartContext } from "../../../providers/CartProvider";
 
 export const EditAdModal = () => {
-  const { currentAd, setIsEditAdModalOpen, editAd } = useContext(CartContext);
+  const { currentAd, setIsEditAdModalOpen, editAd, setIsDeleteAdModalOpen } = useContext(CartContext);
 
   const {
     register,
@@ -18,10 +18,15 @@ export const EditAdModal = () => {
     resolver: zodResolver(editAdSchema),
   });
 
-  const handleRegisterSubmit = (data: TAdEdit) => {
+  const handleEditAdSubmit = (data: TAdEdit) => {
     const parsedData = editAdSchema.parse(data);
     
     editAd(parsedData, currentAd!.id)
+  };
+
+  const handleButton = () => {
+    setIsEditAdModalOpen(false);
+    setIsDeleteAdModalOpen(true);
   };
   return (
     <>
@@ -36,7 +41,7 @@ export const EditAdModal = () => {
             />
           </div>
           <h2>Informações de endereço</h2>
-          <form onSubmit={handleSubmit(handleRegisterSubmit)}>
+          <form onSubmit={handleSubmit(handleEditAdSubmit)}>
             <Input
               id="car_brand"
               placeholder={currentAd?.car_brand}
@@ -150,7 +155,7 @@ export const EditAdModal = () => {
 
             <button>Salvar alterações</button>
           </form>
-          <button>Excluir anúncio</button>
+          <button onClick={() => handleButton()}>Excluir anúncio</button>
         </dialog>
       </StyledSectionBackGround>
     </>

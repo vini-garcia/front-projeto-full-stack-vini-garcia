@@ -18,7 +18,7 @@ export const EditAddressModal = () => {
     resolver: zodResolver(editSchemaRequest),
   });
 
-  const handleRegisterSubmit = (data: TEditUser) => {
+  const handleEditAddressSubmit = (data: TEditUser) => {
     const parsedData = editSchemaRequest.parse(data);
     editUser(parsedData);
   };
@@ -35,7 +35,7 @@ export const EditAddressModal = () => {
             />
           </div>
           <h2>Informações de endereço</h2>
-          <form onSubmit={handleSubmit(handleRegisterSubmit)}>
+          <form onSubmit={handleSubmit(handleEditAddressSubmit)}>
             <Input
               id="post_code"
               placeholder={user?.address?.post_code}

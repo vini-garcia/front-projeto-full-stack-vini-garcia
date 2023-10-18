@@ -11,13 +11,19 @@ import { UserContext } from "../../providers/UserContext/UserContext";
 import { EditUserModal } from "../../components/Modais/EditUser";
 import { EditAddressModal } from "../../components/Modais/EditAddress";
 import { EditAdModal } from "../../components/Modais/EditAd";
+import { DeleteAdModal } from "../../components/Modais/DeleteAd";
+import { DeleteAccountModal } from "../../components/Modais/DeleteUser";
 
 export const Profile = () => {
   const { id } = useParams();
-  const { isCreateAdModalOpen, isEditAdModalOpen } = useContext(CartContext);
-  const { isSuccessModalOpen, isEditUSerModalOpen, setIsEditUSerModalOpen, setIsEditAddressModalOpen, isEditAddressModalOpen } = useContext(UserContext);
-
-
+  const { isCreateAdModalOpen, isEditAdModalOpen, isDeleteAdModalOpen } = useContext(CartContext);
+  const {
+    isSuccessModalOpen,
+    isEditUSerModalOpen,
+    isEditAddressModalOpen,
+    isDeleteAccountModalOpen,
+    setIsDeleteAccountModalOpen,
+  } = useContext(UserContext);
 
   const [ads, setAds] = useState<IAd[]>([]);
   async function getUserAds() {
@@ -44,8 +50,12 @@ export const Profile = () => {
       {isCreateAdModalOpen ? <CreateAdModal /> : null}
       {isEditUSerModalOpen ? <EditUserModal /> : null}
       {isEditAdModalOpen ? <EditAdModal /> : null}
+      {isDeleteAdModalOpen ? <DeleteAdModal /> : null}
       {isEditAddressModalOpen ? <EditAddressModal /> : null}
-      {isSuccessModalOpen ? <SuccessModal link={"null"} text={"Seu anúncio foi criado com sucesso!"} /> : null}
+      {isDeleteAccountModalOpen ? <DeleteAccountModal /> : null}
+      {isSuccessModalOpen ? (
+        <SuccessModal link={"null"} text={"Seu anúncio foi criado com sucesso!"} />
+      ) : null}
       <main>
         <section>
           <div></div>
@@ -59,6 +69,7 @@ export const Profile = () => {
           </div>
           {ad == null ? <h2>Carregando</h2> : <div>{ad.user.description}</div>}
         </section>
+        <button onClick={() => setIsDeleteAccountModalOpen(true)}>DELETAR CONTA</button>
         <section>
           {ads.length == 0 ? (
             <h2>Nenhum anúncio a ser mostrado</h2>

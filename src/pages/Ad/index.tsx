@@ -3,6 +3,7 @@ import { Header } from "../../components/Header";
 import Footer from "../../components/Footer";
 import { useContext, useEffect, useState } from "react";
 import { CartContext, IAd, IComment } from "../../providers/CartProvider";
+import { StyledMain } from "./style";
 
 export const AdPage = () => {
   const [ad, setAd] = useState<IAd>();
@@ -31,6 +32,8 @@ export const AdPage = () => {
     getCurrentAdComments();
   }, [getCommentsFromAd, id]);
 
+//  console.log(ad.images)
+
   // const splitName = ad!.user?.name.split(" ");
   // const initialsLetters = `${splitName[0][0]}${splitName[splitName.length - 1][0]}`;
 
@@ -40,7 +43,7 @@ export const AdPage = () => {
       {ad == null ? (
         <h2>Carregando</h2>
       ) : (
-        <main>
+        <StyledMain>
           <div></div>
           <section>
             <div>
@@ -89,7 +92,11 @@ export const AdPage = () => {
             <div>
               <h3>Fotos</h3>
               <ul>
-                <li>Fotos</li>
+                {ad.images.map((image) => {
+                  return <li key={image.id}>
+                    <img src={image.gallery_image_url} alt="Imagem veículo" />
+                  </li>;
+                })}
               </ul>
             </div>
             <div>
@@ -102,7 +109,7 @@ export const AdPage = () => {
               <Link to={`/announcements/user/${ad.user.id}`}>Ver todos os anúncios</Link>
             </div>
           </section>
-        </main>
+        </StyledMain>
       )}
 
       <Footer />
