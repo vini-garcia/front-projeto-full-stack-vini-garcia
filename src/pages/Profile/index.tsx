@@ -13,6 +13,7 @@ import { EditAddressModal } from "../../components/Modais/EditAddress";
 import { EditAdModal } from "../../components/Modais/EditAd";
 import { DeleteAdModal } from "../../components/Modais/DeleteAd";
 import { DeleteAccountModal } from "../../components/Modais/DeleteUser";
+import { StyledMain } from "./style";
 
 export const Profile = () => {
   const { id } = useParams();
@@ -22,7 +23,6 @@ export const Profile = () => {
     isEditUSerModalOpen,
     isEditAddressModalOpen,
     isDeleteAccountModalOpen,
-    setIsDeleteAccountModalOpen,
   } = useContext(UserContext);
 
   const [ads, setAds] = useState<IAd[]>([]);
@@ -64,28 +64,32 @@ export const Profile = () => {
       {isSuccessModalOpen ? (
         <SuccessModal link={"null"} text={"Seu anúncio foi criado com sucesso!"} />
       ) : null}
-      <main>
-        <section>
-          <div></div>
-          <span className="seller_info">
-            <div>{nameSub(ad.user.name!)}</div>
-            {ad == null ? <h2>Carregando</h2> : <h4>{ad.user.name}</h4>}
-          </span>
-          <div>
-            {ad == null ? <h2>Carregando</h2> : <h2>{ad.user.name}</h2>}
-            {ad == null ? <h2>Carregando</h2> : <span>Anunciante</span>}
-          </div>
-          {ad == null ? <h2>Carregando</h2> : <div>{ad.user.description}</div>}
-        </section>
-        <button onClick={() => setIsDeleteAccountModalOpen(true)}>DELETAR CONTA</button>
-        <section>
-          {ads.length == 0 ? (
-            <h2>Nenhum anúncio a ser mostrado</h2>
-          ) : (
-            <AdsListComponent ads={ads} />
-          )}
-        </section>
-      </main>
+      {ad == null ? (
+        <h2>Carregando</h2>
+      ) : (
+        <StyledMain>
+          <section>
+            <div></div>
+            <span className="seller_info">
+              <div>{nameSub(ad.user.name!)}</div>
+              <h4>{ad.user.name}</h4>
+            </span>
+            <div>
+              <h2>{ad.user.name}</h2>
+              <span>Anunciante</span>
+            </div>
+            <div>{ad.user.description}</div>
+          </section>
+          <section>
+            {ads.length == 0 ? (
+              <h2>Nenhum anúncio a ser mostrado</h2>
+            ) : (
+              <AdsListComponent ads={ads} />
+            )}
+          </section>
+        </StyledMain>
+      )}
+
       <Footer />
     </>
   );

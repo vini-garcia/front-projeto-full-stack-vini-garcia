@@ -6,14 +6,21 @@ import { useContext } from "react";
 import { CartContext } from "../../providers/CartProvider";
 import { EditAdModal } from "../../components/Modais/EditAd";
 import { DeleteAdModal } from "../../components/Modais/DeleteAd";
+import { EditUserModal } from "../../components/Modais/EditUser";
+import { EditAddressModal } from "../../components/Modais/EditAddress";
+import { UserContext } from "../../providers/UserContext/UserContext";
 
 export const HomePage = () => {
   const { ads, isEditAdModalOpen, isDeleteAdModalOpen } = useContext(CartContext);
+  const { isEditAddressModalOpen, isEditUSerModalOpen } = useContext(UserContext);
+
   return (
     <>
       <Header />
       {isEditAdModalOpen ? <EditAdModal /> : null}
       {isDeleteAdModalOpen ? <DeleteAdModal /> : null}
+      {isEditUSerModalOpen ? <EditUserModal /> : null}
+      {isEditAddressModalOpen ? <EditAddressModal /> : null}
       <main>
         <StyledSectionBackGround>
           <div>

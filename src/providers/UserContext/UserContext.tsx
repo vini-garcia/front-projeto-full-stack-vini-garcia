@@ -193,10 +193,12 @@ export function UserProvider({ children }: UserProviderProps) {
   function logout() {
     const keysToRemove = ["@token"];
     keysToRemove.forEach((key) => localStorage.removeItem(key));
+    setUser(null);
 
     setTimeout(() => {
       navigate("/login");
-    }, 2000);
+      location.reload();
+    }, 1000);
   }
 
   return (

@@ -5,10 +5,14 @@ import { useContext, useEffect, useState } from "react";
 import { CartContext, IAd, IComment } from "../../providers/CartProvider";
 import { StyledMain } from "./style";
 import { ImageModal } from "../../components/Modais/OpenImage";
+import { EditAddressModal } from "../../components/Modais/EditAddress";
+import { EditUserModal } from "../../components/Modais/EditUser";
+import { UserContext } from "../../providers/UserContext/UserContext";
 
 export const AdPage = () => {
   const [ad, setAd] = useState<IAd>();
   const [comments, setComments] = useState<IComment[]>([]);
+  const { isEditAddressModalOpen, isEditUSerModalOpen } = useContext(UserContext);
 
   const { getAd, getCommentsFromAd, isImageModalOpen, setIsImageModalOpen, setCurrentImage } =
     useContext(CartContext);
@@ -54,7 +58,10 @@ export const AdPage = () => {
     <>
       <Header />
       {isImageModalOpen ? <ImageModal /> : null}
-      {ad == null ? (
+      {isEditUSerModalOpen ? <EditUserModal /> : null}
+      {isEditAddressModalOpen ? <EditAddressModal /> : null}
+
+      {ad == null || comments === null ? (
         <h2>Carregando</h2>
       ) : (
         <StyledMain>
@@ -117,7 +124,7 @@ export const AdPage = () => {
             </div>
             <div>
               <span className="seller_info">
-                {/* <div>{initialsLetters}</div> */}
+                <div>{nameSub(ad.user.name!)}</div>
                 <h4>{ad.user.name}</h4>
               </span>
               <h2>{ad?.user.name}</h2>
