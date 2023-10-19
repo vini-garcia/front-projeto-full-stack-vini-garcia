@@ -112,6 +112,7 @@ export const StyledHeader = styled.header`
 
     .menuLogo {
       height: 2.25rem;
+      cursor: pointer;
     }
 
     .headerNavLog.hidden,

@@ -17,12 +17,14 @@ import { StyledMain } from "./style";
 
 export const Profile = () => {
   const { id } = useParams();
-  const { isCreateAdModalOpen, isEditAdModalOpen, isDeleteAdModalOpen } = useContext(CartContext);
+  const { isCreateAdModalOpen, setIsCreateAdModalOpen, isEditAdModalOpen, isDeleteAdModalOpen } =
+    useContext(CartContext);
   const {
     isSuccessModalOpen,
     isEditUSerModalOpen,
     isEditAddressModalOpen,
     isDeleteAccountModalOpen,
+    user,
   } = useContext(UserContext);
 
   const [ads, setAds] = useState<IAd[]>([]);
@@ -64,22 +66,60 @@ export const Profile = () => {
       {isSuccessModalOpen ? (
         <SuccessModal link={"null"} text={"Seu anúncio foi criado com sucesso!"} />
       ) : null}
-      {ad == null ? (
-        <h2>Carregando</h2>
-      ) : (
-        <StyledMain>
+      <StyledMain>
+        {user == null ? (
+          <h2>Carregando</h2>
+        ) : (
           <section>
             <div></div>
-            <span className="seller_info">
-              <div>{nameSub(ad.user.name!)}</div>
-              <h4>{ad.user.name}</h4>
-            </span>
-            <div>
-              <h2>{ad.user.name}</h2>
-              <span>Anunciante</span>
-            </div>
-            <div>{ad.user.description}</div>
+            {ad == null ? (
+              <section>
+                <span className="seller_info">
+                  <div>{nameSub(user?.name)}</div>
+                  <h4>{user?.name}</h4>
+                </span>
+                <div>
+                  <h2>{user?.name}</h2>
+                  <span>{user?.type_of_account}</span>
+                </div>
+                <p>{user.description}</p>
+                {user.type_of_account == "seller" ? (
+                  <button
+                    onClick={() => {
+                      setIsCreateAdModalOpen(true);
+                    }}
+                  >
+                    Criar anúncio
+                  </button>
+                ) : null}
+              </section>
+            ) : (
+              <section>
+                <span className="seller_info">
+                  <div>{nameSub(ad.user?.name)}</div>
+                  <h4>{ad.user?.name}</h4>
+                </span>
+                <div>
+                  <h2>{ad.user?.name}</h2>
+                  <span>Anunciante</span>
+                </div>
+                <p>{ad.user.description}</p>
+                {ad.user.id == user?.id ? (
+                  <button
+                    onClick={() => {
+                      setIsCreateAdModalOpen(true);
+                    }}
+                  >
+                    Criar anúncio
+                  </button>
+                ) : null}
+              </section>
+            )}
           </section>
+        )}
+        {ad == null ? (
+          <h2>Nenhum anúncio a ser mostrado</h2>
+        ) : (
           <section>
             {ads.length == 0 ? (
               <h2>Nenhum anúncio a ser mostrado</h2>
@@ -87,9 +127,8 @@ export const Profile = () => {
               <AdsListComponent ads={ads} />
             )}
           </section>
-        </StyledMain>
-      )}
-
+        )}
+      </StyledMain>
       <Footer />
     </>
   );

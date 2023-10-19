@@ -167,6 +167,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
     if (payload.images) {
       payload.images.gallery_image_url = [];
     }
+    
     try {
       const { data } = await api.post<IAdResponse>("/announcements/", payload, {
         headers: {

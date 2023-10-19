@@ -126,8 +126,16 @@ export const RegisterUserForm = () => {
         </div>
         <h4 className="formSectionTitles">Tipo de conta</h4>
         <div className="btns_container">
-          <FormButton text="Comprador" customClass="brandDarkButton" />
-          <FormButton text="Anunciante" customClass="lightButton1" />
+        <Input
+          id="type_of_account"
+          placeholder="Ex: seller ou buyer"
+          type="text"
+          label={"Tipo de conta"}
+          error={errors.type_of_account?.message}
+          {...register("type_of_account")}
+        />
+          {/* <FormButton text="Comprador" customClass="brandDarkButton" />
+          <FormButton text="Anunciante" customClass="lightButton1" /> */}
         </div>
         <Input
           id="password"

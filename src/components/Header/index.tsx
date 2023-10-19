@@ -4,9 +4,10 @@ import burguer_button from "../../assets/burguer_menu.svg";
 import closebutton from "../../assets/x_button.svg";
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserContext/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Header() {
+  const navigate = useNavigate();
   const { user, setIsEditAddressModalOpen, setIsEditUSerModalOpen, logout } =
     useContext(UserContext);
 
@@ -21,11 +22,22 @@ export function Header() {
       .join("");
   };
 
+  const goToHomePage = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <StyledHeader>
         <div className="headerMenu">
-          <img className="menuLogo" src={logo} alt="Motors Shop logo" />
+          <img
+            onClick={() => {
+              goToHomePage();
+            }}
+            className="menuLogo"
+            src={logo}
+            alt="Motors Shop logo"
+          />
           <img className="openMenuBtn menuButton" src={burguer_button} aria-label="Abrir Menu" />
           <img
             className="closeMenuBtn menuButton hidden"
@@ -57,7 +69,7 @@ export function Header() {
               </div>
               {user?.type_of_account == "seller" ? (
                 <div>
-                  <Link to={`/announcements/user/${user.id}`}>Meus anúncios</Link>
+                  <Link to={`/announcements/user/${user?.id}`}>Meus anúncios</Link>
                 </div>
               ) : null}
               <div onClick={() => logout()}>
