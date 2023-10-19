@@ -114,28 +114,28 @@ export const CreateAdModal = () => {
               {...register("description")}
             />
             <Input
-              id="gallery_image_url"
+              id="gallery_image_url1"
               placeholder="Ex: www.foto.com.br"
               type="text"
               label={"Imagem da capa"}
-              error={errors.images?.gallery_image_url?.message}
-              {...register("images.gallery_image_url")}
+              error={errors.images?.gallery_image_url1?.message}
+              {...register("images.gallery_image_url1")}
             />
             <Input
-              id="gallery_image_url"
+              id="gallery_image_url2"
               placeholder="Ex: www.foto.com.br"
               type="text"
               label={"1ª imagem da galeria"}
-              error={errors.images?.gallery_image_url?.message}
-              {...register("images.gallery_image_url")}
+              error={errors.images?.gallery_image_url2?.message}
+              {...register("images.gallery_image_url2")}
             />
             <Input
-              id="gallery_image_url"
+              id="gallery_image_url3"
               placeholder="Ex: www.foto.com.br"
               type="text"
               label={"2ª imagem da galeria"}
-              error={errors.images?.gallery_image_url?.message}
-              {...register("images.gallery_image_url")}
+              error={errors.images?.gallery_image_url3?.message}
+              {...register("images.gallery_image_url3")}
             />
             <div>
               {/* <button onClick={() => setIsCreateAdModalOpen(false)}>Cancelar</button> */}

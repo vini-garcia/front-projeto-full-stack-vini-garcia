@@ -50,7 +50,10 @@ export interface IAdRequest {
   type_of_fuel: string;
   images: {
     cover_image_url?: string | null | undefined | never[];
-    gallery_image_url?: string | null | undefined | never[];
+    gallery_image_url?: string[] | string | null | undefined | never[];
+    gallery_image_url2?: string | null;
+    gallery_image_url1?: string | null;
+    gallery_image_url3?: string | null;
   };
 }
 
@@ -164,10 +167,21 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   };
 
   const createNewAd = async (payload: IAdRequest) => {
-    if (payload.images) {
-      payload.images.gallery_image_url = [];
+    const imagesList: string[] | null = [];
+    if (payload.images.gallery_image_url1 != "") {
+      imagesList.push(payload.images.gallery_image_url1!);
     }
-    
+    if (payload.images.gallery_image_url2 != "") {
+      imagesList.push(payload.images.gallery_image_url2!);
+    }
+    if (payload.images.gallery_image_url3 != "") {
+      imagesList.push(payload.images.gallery_image_url3!)!;
+    }
+    payload.images.gallery_image_url = imagesList;
+    delete payload.images.gallery_image_url1;
+    delete payload.images.gallery_image_url2;
+    delete payload.images.gallery_image_url3;
+
     try {
       const { data } = await api.post<IAdResponse>("/announcements/", payload, {
         headers: {
@@ -182,39 +196,58 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
     }
   };
 
-  const editAd = async (data: Partial<TAdEdit>, id: string) => {
-    if (data.car_brand == "") {
-      delete data.car_brand;
+  const editAd = async (payload: Partial<IAdRequest>, id: string) => {
+    if (payload.car_brand == "") {
+      delete payload.car_brand;
     }
-    if (data.model_car == "") {
-      delete data.model_car;
+    if (payload.model_car == "") {
+      delete payload.model_car;
     }
-    if (data.year_built == 0) {
-      delete data.year_built;
+    if (payload.year_built == 0) {
+      delete payload.year_built;
     }
-    if (data.type_of_fuel == "") {
-      delete data.type_of_fuel;
+    if (payload.type_of_fuel == "") {
+      delete payload.type_of_fuel;
     }
-    if (data.mileage == 0) {
-      delete data.mileage;
+    if (payload.mileage == 0) {
+      delete payload.mileage;
     }
-    if (data.color == "") {
-      delete data.color;
+    if (payload.color == "") {
+      delete payload.color;
     }
-    if (data.fipe_price == 0) {
-      delete data.fipe_price;
+    if (payload.fipe_price == 0) {
+      delete payload.fipe_price;
     }
-    if (data.price == 0) {
-      delete data.price;
+    if (payload.price == 0) {
+      delete payload.price;
     }
-    if (data.description == "") {
-      delete data.description;
+    if (payload.description == "") {
+      delete payload.description;
     }
-    if (data.images?.gallery_image_url == "") {
-      delete data.images;
+    if (payload.images?.gallery_image_url1 == "") {
+      delete payload.images;
     }
+    if (payload.images?.gallery_image_url1) {
+      const imagesList: string[] | null = [];
+      if (payload.images!.gallery_image_url1 != "") {
+        imagesList.push(payload.images!.gallery_image_url1!);
+      }
+      if (payload.images!.gallery_image_url2 != "") {
+        imagesList.push(payload.images!.gallery_image_url2!);
+      }
+      if (payload.images!.gallery_image_url3 != "") {
+        imagesList.push(payload.images!.gallery_image_url3!);
+      }
+      payload.images!.gallery_image_url = imagesList;
+      delete payload.images!.gallery_image_url1;
+      delete payload.images!.gallery_image_url2;
+      delete payload.images!.gallery_image_url3;
+
+      payload.images
+    }
+    // console.log(payload.images!)
     try {
-      await api.patch(`/announcements/${id}`, data, {
+      await api.patch(`/announcements/${id}`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

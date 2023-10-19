@@ -27,11 +27,12 @@ export const Profile = () => {
     user,
   } = useContext(UserContext);
 
-  const [ads, setAds] = useState<IAd[]>([]);
+  const [currentAds, setCurrentAds] = useState<IAd[]>([]);
+
   async function getUserAds() {
     try {
       const { data } = await api.get<IAd[]>(`/announcements/user/${id}`);
-      setAds(data);
+      setCurrentAds(data);
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +42,7 @@ export const Profile = () => {
     getUserAds();
   });
 
-  const ad = ads[0];
+  const currentAd = currentAds[0];
 
   const nameSub = (nameSurname: string) => {
     return nameSurname
@@ -72,7 +73,7 @@ export const Profile = () => {
         ) : (
           <section>
             <div></div>
-            {ad == null ? (
+            {currentAd == null ? (
               <section>
                 <span className="seller_info">
                   <div>{nameSub(user?.name)}</div>
@@ -96,15 +97,15 @@ export const Profile = () => {
             ) : (
               <section>
                 <span className="seller_info">
-                  <div>{nameSub(ad.user?.name)}</div>
-                  <h4>{ad.user?.name}</h4>
+                  <div>{nameSub(currentAd.user?.name)}</div>
+                  <h4>{currentAd.user?.name}</h4>
                 </span>
                 <div>
-                  <h2>{ad.user?.name}</h2>
+                  <h2>{currentAd.user?.name}</h2>
                   <span>Anunciante</span>
                 </div>
-                <p>{ad.user.description}</p>
-                {ad.user.id == user?.id ? (
+                <p>{currentAd.user.description}</p>
+                {currentAd.user.id == user?.id ? (
                   <button
                     onClick={() => {
                       setIsCreateAdModalOpen(true);
@@ -117,14 +118,14 @@ export const Profile = () => {
             )}
           </section>
         )}
-        {ad == null ? (
+        {currentAd == null ? (
           <h2>Nenhum anúncio a ser mostrado</h2>
         ) : (
           <section>
-            {ads.length == 0 ? (
+            {currentAds.length == 0 ? (
               <h2>Nenhum anúncio a ser mostrado</h2>
             ) : (
-              <AdsListComponent ads={ads} />
+              <AdsListComponent ads={currentAds} />
             )}
           </section>
         )}

@@ -3,6 +3,9 @@ import { z } from "zod";
 export const adCreateSchema = z.object({
   images: z.object({
     gallery_image_url: z.string().max(250).nullish().optional(),
+    gallery_image_url1: z.string().max(250).nullish().optional(),
+    gallery_image_url2: z.string().max(250).nullish().optional(),
+    gallery_image_url3: z.string().max(250).nullish().optional(),
     cover_image_url: z.string().max(250).nullish().optional(),
   }),
   car_brand: z.string().max(15).min(1, "Marca é obrigatória"),
