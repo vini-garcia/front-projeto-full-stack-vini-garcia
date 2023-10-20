@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Header } from "../../components/Header";
 import Footer from "../../components/Footer";
 import { AdsListComponent } from "../../components/AdsList";
-import { api } from "../../services/api";
-import { CartContext, IAd } from "../../providers/CartProvider";
+import { CartContext } from "../../providers/CartProvider";
 import { CreateAdModal } from "../../components/Modais/CreateAd";
 import { SuccessModal } from "../../components/Modais/Success";
 import { UserContext } from "../../providers/UserContext/UserContext";
@@ -17,8 +16,14 @@ import { StyledMain } from "./style";
 
 export const Profile = () => {
   const { id } = useParams();
-  const { isCreateAdModalOpen, setIsCreateAdModalOpen, isEditAdModalOpen, isDeleteAdModalOpen } =
-    useContext(CartContext);
+  const {
+    isCreateAdModalOpen,
+    setIsCreateAdModalOpen,
+    isEditAdModalOpen,
+    isDeleteAdModalOpen,
+    currentAds,
+    getUserAds,
+  } = useContext(CartContext);
   const {
     isSuccessModalOpen,
     isEditUSerModalOpen,
@@ -27,20 +32,9 @@ export const Profile = () => {
     user,
   } = useContext(UserContext);
 
-  const [currentAds, setCurrentAds] = useState<IAd[]>([]);
-
-  async function getUserAds() {
-    try {
-      const { data } = await api.get<IAd[]>(`/announcements/user/${id}`);
-      setCurrentAds(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
-    getUserAds();
-  });
+    getUserAds(id!);
+  }, []);
 
   const currentAd = currentAds[0];
 
@@ -54,7 +48,7 @@ export const Profile = () => {
       })
       .join("");
   };
-
+  // console.log(currentAds)
   return (
     <>
       <Header />

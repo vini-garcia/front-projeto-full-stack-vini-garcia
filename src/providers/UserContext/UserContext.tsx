@@ -93,20 +93,22 @@ export function UserProvider({ children }: UserProviderProps) {
     }
   }
 
-  const getUser = async (token: string) => {
-    const userFound = await api.get<IUserWithAddress>(`users/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setUser(userFound.data);
-  };
-
   useEffect(() => {
-    if (token) {
-      getUser(token);
+    async function getUser() {
+      try {
+        const userFound = await api.get<IUserWithAddress>(`users/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(userFound.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  });
+
+    getUser();
+  }, []);
 
   async function registerSubmit(formData: TRegister) {
     try {

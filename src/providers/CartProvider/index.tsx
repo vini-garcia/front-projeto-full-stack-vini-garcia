@@ -103,11 +103,13 @@ export interface IComment {
 
 interface IAdContext {
   ads: IAdResponse[];
+  ad: IAd | undefined;
+  setAd: React.Dispatch<React.SetStateAction<IAd | undefined>>;
   currentAd: IAdResponse | undefined;
   setCurrentAd: React.Dispatch<React.SetStateAction<IAdResponse | undefined>>;
   deleteAd: (id: string) => Promise<void>;
   editAd: (data: Partial<TAdEdit>, id: string) => Promise<void>;
-  getAd: (id: string) => Promise<IAdResponse | undefined>;
+  getAd: (id: string) => Promise<void>;
   getCommentsFromAd: (id: string) => Promise<IComment[] | undefined>;
   setIsCreateAdModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isCreateAdModalOpen: boolean;
@@ -120,12 +122,16 @@ interface IAdContext {
   isImageModalOpen: boolean;
   setCurrentImage: React.Dispatch<React.SetStateAction<string | undefined>>;
   currentImage: string | undefined;
+  setCurrentAds: React.Dispatch<React.SetStateAction<IAd[]>>;
+  currentAds: IAd[];
+  getUserAds: (id: string) => Promise<void>;
 }
 
 export const CartContext = createContext({} as IAdContext);
 
 export const CartProvider = ({ children }: ICartProviderProps) => {
   const [ads, setAds] = useState<IAdResponse[]>([]);
+  const [ad, setAd] = useState<IAd>();
   const [currentAd, setCurrentAd] = useState<IAdResponse>();
   const [isCreateAdModalOpen, setIsCreateAdModalOpen] = useState(false);
   const [isEditAdModalOpen, setIsEditAdModalOpen] = useState(false);
@@ -134,24 +140,34 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   const token = localStorage.getItem("@token");
   const { setIsSuccessModalOpen } = useContext(UserContext);
   const [currentImage, setCurrentImage] = useState<string>();
+  const [currentAds, setCurrentAds] = useState<IAd[]>([]);
 
-  async function loadAds() {
+  const getUserAds = async (id: string) => {
     try {
-      const { data } = await api.get<IAdResponse[]>("/announcements/");
-      setAds(data);
+      const { data } = await api.get<IAd[]>(`/announcements/user/${id}`);
+      setCurrentAds(data);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
+    async function loadAds() {
+      try {
+        const { data } = await api.get<IAdResponse[]>("/announcements/");
+        setAds(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     loadAds();
-  });
+  }, []);
 
   const getAd = async (id: string) => {
     try {
       const { data } = await api.get<IAdResponse>(`/announcements/${id}`);
-      return data;
+      setAd(data);
     } catch (error) {
       console.error(error);
     }
@@ -188,6 +204,9 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      await getUserAds(data.user.id);
+      const ads = await api.get<IAd[]>(`/announcements/user/${data.user.id}`);
+      setCurrentAds(ads.data);
       setIsCreateAdModalOpen(false);
       setIsSuccessModalOpen(true);
       return data;
@@ -243,7 +262,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
       delete payload.images!.gallery_image_url2;
       delete payload.images!.gallery_image_url3;
 
-      payload.images
+      payload.images;
     }
     // console.log(payload.images!)
     try {
@@ -292,6 +311,11 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
         isImageModalOpen,
         setCurrentImage,
         currentImage,
+        setCurrentAds,
+        currentAds,
+        getUserAds,
+        setAd,
+        ad,
       }}
     >
       {children}

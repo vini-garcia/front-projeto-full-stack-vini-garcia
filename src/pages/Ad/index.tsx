@@ -2,41 +2,38 @@ import { Link, useParams } from "react-router-dom";
 import { Header } from "../../components/Header";
 import Footer from "../../components/Footer";
 import { useContext, useEffect, useState } from "react";
-import { CartContext, IAd, IComment } from "../../providers/CartProvider";
+import { CartContext, IComment } from "../../providers/CartProvider";
 import { StyledMain } from "./style";
 import { ImageModal } from "../../components/Modais/OpenImage";
 import { EditAddressModal } from "../../components/Modais/EditAddress";
 import { EditUserModal } from "../../components/Modais/EditUser";
 import { UserContext } from "../../providers/UserContext/UserContext";
+import { api } from "../../services/api";
 
 export const AdPage = () => {
-  const [ad, setAd] = useState<IAd>();
-  const [comments, setComments] = useState<IComment[]>([]);
+  const [comments, setComments] = useState<IComment[] | undefined | null>([]);
   const { isEditAddressModalOpen, isEditUSerModalOpen } = useContext(UserContext);
-
-  const { getAd, getCommentsFromAd, isImageModalOpen, setIsImageModalOpen, setCurrentImage } =
+  const { isImageModalOpen, setIsImageModalOpen, setCurrentImage, getAd, ad } =
     useContext(CartContext);
 
   const { id } = useParams();
 
   useEffect(() => {
-    const getCurrentAd = async () => {
-      const ad: IAd | undefined = await getAd(id!);
-      setAd(ad);
-    };
-
-    getCurrentAd();
-  }, [getAd, id]);
+    getAd(id!);
+  }, []);
 
   useEffect(() => {
-    const getCurrentAdComments = async () => {
-      const comments = await getCommentsFromAd(id!);
+    async function getCommentsFromAd() {
+      try {
+        const { data } = await api.get<IComment[]>(`/comments/${id}`);
+        setComments(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-      setComments(comments!);
-    };
-
-    getCurrentAdComments();
-  }, [getCommentsFromAd, id]);
+    getCommentsFromAd();
+  }, []);
 
   const handleButton = (urlIMage: string) => {
     setIsImageModalOpen(true);
@@ -94,7 +91,23 @@ export const AdPage = () => {
             <div>
               <h2>Comentários</h2>
               <ul>
-                {comments.map((comment) => {
+                {comments == null ? null : (
+                  <>
+                    {comments!.map((comment) => {
+                      return (
+                        <li key={comment.id}>
+                          <span className="seller_info">
+                            <div>{nameSub(comment.user.name!)}</div>
+                            <h4>{comment.user.name}</h4>
+                          </span>
+                          <p>{comment.created_at}</p>
+                          <p>{comment.comment}</p>
+                        </li>
+                      );
+                    })}
+                  </>
+                )}
+                {comments!.map((comment) => {
                   return (
                     <li key={comment.id}>
                       <span className="seller_info">

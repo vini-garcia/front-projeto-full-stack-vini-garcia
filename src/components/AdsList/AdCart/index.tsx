@@ -31,7 +31,7 @@ export const AdCart = ({ ad }: IAdCart) => {
   return (
     <StyledCart>
       <div className="image_container">
-        {/* <img src={ad.images[0].gallery_image_url} alt={ad.model_car} /> */}
+        <img src={ad.images[0].gallery_image_url} alt={ad.model_car} />
       </div>
       <div className="ad_info_container">
         <h2 className="ad_title">
