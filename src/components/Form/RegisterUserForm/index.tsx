@@ -5,7 +5,6 @@ import { UserContext } from "../../../providers/UserContext/UserContext";
 import { useForm } from "react-hook-form";
 import { Input } from "../Input";
 import { StyledSection } from "./style";
-import { FormButton } from "../../Buttons";
 
 export const RegisterUserForm = () => {
   const { registerSubmit } = useContext(UserContext);

@@ -1,20 +1,38 @@
 import { Link, useParams } from "react-router-dom";
 import { Header } from "../../components/Header";
 import Footer from "../../components/Footer";
-import { useContext, useEffect, useState } from "react";
-import { CartContext, IComment } from "../../providers/CartProvider";
+import { useContext, useEffect } from "react";
+import { CartContext } from "../../providers/CartProvider";
 import { StyledMain } from "./style";
 import { ImageModal } from "../../components/Modais/OpenImage";
 import { EditAddressModal } from "../../components/Modais/EditAddress";
 import { EditUserModal } from "../../components/Modais/EditUser";
 import { UserContext } from "../../providers/UserContext/UserContext";
-import { api } from "../../services/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+export const CommentFormSchema = z.object({
+  comment: z.string().min(1, "Não é possível comentários em branco. Digite algo."),
+});
+
+export type TComment = {
+  comment: string;
+};
+export type TCommentFormSchema = z.infer<typeof CommentFormSchema>;
 
 export const AdPage = () => {
-  const [comments, setComments] = useState<IComment[] | undefined | null>([]);
   const { isEditAddressModalOpen, isEditUSerModalOpen } = useContext(UserContext);
-  const { isImageModalOpen, setIsImageModalOpen, setCurrentImage, getAd, ad } =
-    useContext(CartContext);
+  const {
+    isImageModalOpen,
+    setIsImageModalOpen,
+    setCurrentImage,
+    getCommentsFromAd,
+    comments,
+    getAd,
+    ad,
+    createNewComment,
+  } = useContext(CartContext);
 
   const { id } = useParams();
 
@@ -23,16 +41,7 @@ export const AdPage = () => {
   }, []);
 
   useEffect(() => {
-    async function getCommentsFromAd() {
-      try {
-        const { data } = await api.get<IComment[]>(`/comments/${id}`);
-        setComments(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    getCommentsFromAd();
+    getCommentsFromAd(id!);
   }, []);
 
   const handleButton = (urlIMage: string) => {
@@ -50,6 +59,18 @@ export const AdPage = () => {
       })
       .join("");
   };
+
+  const onSubmitFunction = (data: TComment) => {
+    createNewComment(data, ad!.id);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TCommentFormSchema>({
+    resolver: zodResolver(CommentFormSchema),
+  });
 
   return (
     <>
@@ -90,36 +111,24 @@ export const AdPage = () => {
             </div>
             <div>
               <h2>Comentários</h2>
-              <ul>
-                {comments == null ? null : (
-                  <>
-                    {comments!.map((comment) => {
-                      return (
-                        <li key={comment.id}>
-                          <span className="seller_info">
-                            <div>{nameSub(comment.user.name!)}</div>
-                            <h4>{comment.user.name}</h4>
-                          </span>
-                          <p>{comment.created_at}</p>
-                          <p>{comment.comment}</p>
-                        </li>
-                      );
-                    })}
-                  </>
-                )}
-                {comments!.map((comment) => {
-                  return (
-                    <li key={comment.id}>
-                      <span className="seller_info">
-                        <div>{nameSub(comment.user.name!)}</div>
-                        <h4>{comment.user.name}</h4>
-                      </span>
-                      <p>{comment.created_at}</p>
-                      <p>{comment.comment}</p>
-                    </li>
-                  );
-                })}
-              </ul>
+              {comments == null ? (
+                <p>Sem comentários</p>
+              ) : (
+                <ul>
+                  {comments.map((comment) => {
+                    return (
+                      <li key={comment.id}>
+                        <span className="seller_info">
+                          <div>{nameSub(comment.user.name!)}</div>
+                          <h4>{comment.user.name}</h4>
+                        </span>
+                        <p>{comment.created_at}</p>
+                        <p>{comment.comment}</p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
           </section>
           <section>
@@ -135,6 +144,15 @@ export const AdPage = () => {
                 })}
               </ul>
             </div>
+            <form onSubmit={handleSubmit(onSubmitFunction)}>
+              <textarea
+                placeholder="Digitar comentário"
+                id="comment"
+                {...register("comment")}
+              ></textarea>
+              {errors ? <p>{errors.comment?.message}</p> : null}
+              <button>Comentar</button>
+            </form>
             <div>
               <span className="seller_info">
                 <div>{nameSub(ad.user.name!)}</div>

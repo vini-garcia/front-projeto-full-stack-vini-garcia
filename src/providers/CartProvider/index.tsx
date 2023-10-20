@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { UserContext } from "../UserContext/UserContext";
 import { TAdEdit } from "../../components/Modais/EditAd/editAdSchema";
+import { TComment } from "../../pages/Ad";
 
 export interface ICartProviderProps {
   children: React.ReactNode;
@@ -110,7 +111,7 @@ interface IAdContext {
   deleteAd: (id: string) => Promise<void>;
   editAd: (data: Partial<TAdEdit>, id: string) => Promise<void>;
   getAd: (id: string) => Promise<void>;
-  getCommentsFromAd: (id: string) => Promise<IComment[] | undefined>;
+  getCommentsFromAd: (id: string) => Promise<void>;
   setIsCreateAdModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isCreateAdModalOpen: boolean;
   createNewAd: (payload: IAdRequest) => Promise<IAdResponse | undefined>;
@@ -125,6 +126,9 @@ interface IAdContext {
   setCurrentAds: React.Dispatch<React.SetStateAction<IAd[]>>;
   currentAds: IAd[];
   getUserAds: (id: string) => Promise<void>;
+  setComments: React.Dispatch<React.SetStateAction<IComment[] | null | undefined>>;
+  comments: IComment[] | null | undefined;
+  createNewComment: (payload: TComment, id: string) => Promise<void>;
 }
 
 export const CartContext = createContext({} as IAdContext);
@@ -141,6 +145,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   const { setIsSuccessModalOpen } = useContext(UserContext);
   const [currentImage, setCurrentImage] = useState<string>();
   const [currentAds, setCurrentAds] = useState<IAd[]>([]);
+  const [comments, setComments] = useState<IComment[] | undefined | null>([]);
 
   const getUserAds = async (id: string) => {
     try {
@@ -176,7 +181,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   const getCommentsFromAd = async (id: string) => {
     try {
       const { data } = await api.get<IComment[]>(`/comments/${id}`);
-      return data;
+      setComments(data);
     } catch (error) {
       console.error(error);
     }
@@ -264,7 +269,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
 
       payload.images;
     }
-    // console.log(payload.images!)
+
     try {
       await api.patch(`/announcements/${id}`, payload, {
         headers: {
@@ -285,6 +290,20 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
         },
       });
       setIsDeleteAdModalOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createNewComment = async (payload: TComment, id: string) => {
+    try {
+      const { data } = await api.post(`/comments/${id}`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      await getCommentsFromAd(data.announcements.id);
     } catch (error) {
       console.log(error);
     }
@@ -316,6 +335,9 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
         getUserAds,
         setAd,
         ad,
+        setComments,
+        comments,
+        createNewComment,
       }}
     >
       {children}

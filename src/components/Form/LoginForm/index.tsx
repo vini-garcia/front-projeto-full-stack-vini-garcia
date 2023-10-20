@@ -28,17 +28,17 @@ export const LoginForm = () => {
             type="email"
             label={"Email"}
             placeholder="Digite seu e-mail"
+            error={errors.email?.message}
             {...register("email")}
           />
-          {errors ? <p>{errors.email?.message}</p> : null}
           <Input
             id="senha"
             type="password"
             label="Senha"
             placeholder="Digite sua senha"
+            error={errors.password?.message}
             {...register("password")}
           />
-          {errors ? <p>{errors.password?.message}</p> : null}
           <button>Entrar</button>
         </form>
         <span>
