@@ -61,12 +61,14 @@ export const AdPage = () => {
   };
 
   const onSubmitFunction = (data: TComment) => {
+    reset()
     createNewComment(data, ad!.id);
   };
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TCommentFormSchema>({
     resolver: zodResolver(CommentFormSchema),
