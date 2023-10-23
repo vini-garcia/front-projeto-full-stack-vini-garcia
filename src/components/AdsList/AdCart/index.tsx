@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { CartContext, IAd } from "../../../providers/CartProvider";
 import { StyledCart } from "./style";
 import { UserContext } from "../../../providers/UserContext/UserContext";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export interface IAdCart {
@@ -9,6 +10,7 @@ export interface IAdCart {
 }
 
 export const AdCart = ({ ad }: IAdCart) => {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const { setIsEditAdModalOpen, setCurrentAd } = useContext(CartContext);
 
@@ -28,8 +30,12 @@ export const AdCart = ({ ad }: IAdCart) => {
       .join("");
   };
 
+  const handleGoToAd = (id:string) => {
+    navigate(`/announcements/${id}`) 
+  };
+
   return (
-    <StyledCart>
+    <StyledCart onClick={() => handleGoToAd(ad.id)}>
       <div className="image_container">
         <img src={ad.images[0].gallery_image_url} alt={ad.model_car} />
       </div>

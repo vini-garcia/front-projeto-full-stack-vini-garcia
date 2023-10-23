@@ -8,6 +8,7 @@ export const StyledCart = styled.li`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 
   .image_container > img {
     width: 320px;

@@ -3,18 +3,41 @@ import blueCar from "../../assets/blue_car.png";
 
 export const StyledSectionBackGround = styled.section`
   width: 100%;
-  height: 544px;
+  height: 650px;
 
+  &.main__announcement {
+    background-image: url(${blueCar});
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+`;
+
+export const MainBanner = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
 
-  background-image: url(${blueCar});
-  background-repeat: no-repeat;
-  background-position: center;
-  /* background: linear-gradient(180deg, rgba(0, 0, 0, 0.29) 0%, #000000 100%); */
+  h4 {
+    color: white;
+    font-size: 30px;
+  }
+
+  h2 {
+    color: white;
+    font-size: 25px;
+  }
+
+  &.linear_gradient {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding-top: 150px;
+    gap: 10px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.29) 0%, #000000 100%);
+  }
 `;
 
 export const StyledSectionAds = styled.section`
   width: 100%;
-  height: 900px;
+  height: 100%;
+  padding: 50px 100px;
 `;

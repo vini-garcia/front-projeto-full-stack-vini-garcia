@@ -1,7 +1,7 @@
 import Footer from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { AdsListComponent } from "../../components/AdsList";
-import { StyledSectionAds, StyledSectionBackGround } from "./styled";
+import { MainBanner, StyledSectionAds, StyledSectionBackGround } from "./styled";
 import { useContext } from "react";
 import { CartContext } from "../../providers/CartProvider";
 import { EditAdModal } from "../../components/Modais/EditAd";
@@ -22,11 +22,11 @@ export const HomePage = () => {
       {isEditUSerModalOpen ? <EditUserModal /> : null}
       {isEditAddressModalOpen ? <EditAddressModal /> : null}
       <main>
-        <StyledSectionBackGround>
-          <div>
+        <StyledSectionBackGround className="main__announcement">
+          <MainBanner className="linear_gradient">
             <h4>Motors Shop</h4>
             <h2>A melhor plataforma de anúncios de carros do país</h2>
-          </div>
+          </MainBanner>
         </StyledSectionBackGround>
         <StyledSectionAds>
           <AdsListComponent ads={ads} />
