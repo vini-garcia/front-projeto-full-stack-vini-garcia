@@ -2,13 +2,13 @@ import logo from "../../assets/logo.png";
 import { StyledHeader } from "./style";
 import burguer_button from "../../assets/burguer_menu.svg";
 import closebutton from "../../assets/x_button.svg";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../providers/UserContext/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 
 export function Header() {
   const navigate = useNavigate();
-  const { user, setIsEditAddressModalOpen, setIsEditUSerModalOpen, logout } =
+  const { user, setIsEditAddressModalOpen, setIsEditUSerModalOpen, getUser, logout } =
     useContext(UserContext);
 
   const nameSub = (nameSurname: string) => {
@@ -25,6 +25,10 @@ export function Header() {
   const goToHomePage = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <>

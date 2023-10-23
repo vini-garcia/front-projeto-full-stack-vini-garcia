@@ -63,6 +63,7 @@ interface UserProviderValues {
   setIsDeleteAccountModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isDeleteAccountModalOpen: boolean;
   deleteAccount: (id: string) => Promise<void>;
+  getUser: () => Promise<void>;
 }
 
 export const UserContext = createContext<UserProviderValues>({} as UserProviderValues);
@@ -82,7 +83,7 @@ export function UserProvider({ children }: UserProviderProps) {
       const response = await api.post("/login", formData);
       setUser(response.data.user);
       localStorage.setItem("@token", response.data.token);
-      await getUser(response.data.token);
+      await getUser();
       navigate("/");
 
       // setTimeout(() => {
@@ -93,20 +94,20 @@ export function UserProvider({ children }: UserProviderProps) {
     }
   }
 
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const userFound = await api.get<IUserWithAddress>(`users/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(userFound.data);
-      } catch (error) {
-        console.log(error);
-      }
+  async function getUser() {
+    try {
+      const userFound = await api.get<IUserWithAddress>(`users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(userFound.data);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
+  useEffect(() => {
     getUser();
   }, []);
 
@@ -220,6 +221,7 @@ export function UserProvider({ children }: UserProviderProps) {
         setIsDeleteAccountModalOpen,
         isDeleteAccountModalOpen,
         deleteAccount,
+        getUser,
       }}
     >
       {children}
