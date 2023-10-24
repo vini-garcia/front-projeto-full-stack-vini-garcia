@@ -85,9 +85,9 @@ export const AdPage = () => {
         <h2>Carregando</h2>
       ) : (
         <StyledMain>
-          <div></div>
+          <div className="purpleBackGound"></div>
           <section>
-            <div>
+            <div className="imageContainer">
               <img src={ad?.images[0].gallery_image_url} alt={ad?.model_car} />
             </div>
             <div>
