@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import { StyledButton } from "./style";
 
-export interface IFormButtonProps {
+export interface IButton {
   text: string;
   customClass: string;
-  disabled?: boolean;
+  type: "button" | "submit" | "reset" | undefined;
 }
 
-export function FormButton({ text, customClass, disabled }: IFormButtonProps) {
+export function FormButton({ text, customClass, type }: IButton) {
   return (
-    <StyledButton className={`${customClass} largeButton`} disabled={disabled}>
+    <StyledButton className={`${customClass} largeButton`} type={type}>
       {text === "Cadastrar" || text === "Login" ? (
         <Link
           className="linkButton"
