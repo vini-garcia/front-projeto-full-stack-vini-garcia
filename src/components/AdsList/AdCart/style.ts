@@ -1,20 +1,21 @@
 import styled from "styled-components";
 
 export const StyledCart = styled.li`
-  width: 19.5rem;
-  height: 21.875rem;
+  width: 20rem;
+  height: 21.4rem;
   background-color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
+  margin-top: 40px;
 
   .image_container > img {
     width: 320px;
     height: 152px;
     object-fit: cover;
     border-radius: 6px;
+    cursor: pointer;
   }
 
   .ad_info_container {
@@ -51,6 +52,27 @@ export const StyledCart = styled.li`
     border-radius: var(--radius-50);
     background-color: var(--random-1);
     color: var(--white);
+  }
+
+  .buttonsContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .editButton,
+  .detailsButton {
+    padding-top: 10px;
+  }
+
+  .editButton > button {
+    height: 35px;
+    width: 60px;
+  }
+
+  .detailsButton > button {
+    height: 35px;
+    width: fit-content;
   }
 
   .ad_extra_info_container {

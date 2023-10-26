@@ -30,9 +30,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-body {
-	line-height: 1;
-}
 ol, ul {
 	list-style: none;
 }
@@ -60,43 +57,93 @@ ol, ul {
   --random-4: #153D2E;
   --random-5: #7000FF;
   --random-6: #30007D;
-  --random-7: #349974;
-  --random-8: #2a7d5f;
-  --random-9: #153d2e;
-  --random-10: #6100ff;
-  --random-11: #5700e3;
-  --random-12: #30007d;
-
   --alert-0: #CD2B31;
   --alert-1: #FDD8D8;
   --alert-2: #FFE5E5;
   --success-0: #18794E;
   --success-1: #CCEBD7;
   --success-2: #DDF3E4;
-  --backdrop: #808080;
+  --backdrop: #80808020;
   --radius-4: 0.25rem;
+  --radius-8: 0.5rem;
   --radius-20: 1.25rem;
   --radius-50: 50%;
-
-  body {
-    width: 100%;
-    height: 100%;
-    min-width: 20rem;
-    min-height: 100vh;
-    overflow-x: hidden;
-    color: var(--grey-2);
-  }
-
-  #root {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-  }
 }
-  
+body {
+  width: 100%;
+  height: 100%;
+  min-width: 20rem;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--grey-2);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
 button {
-	cursor: pointer;
+  cursor: pointer;
 }
+
+.hidden{
+  display: none;
+}
+
+.brandLightContainers {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.5rem;
+  background-color: var(--brand-4);
+  border-radius: var(--radius-4);
+  color: var(--brand-1);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+	.adSellerInfo, .userInfo {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--grey-2);
+		font-size: 0.875rem;
+	}
+	.adSellerInfo > div, .userInfo > div {
+    display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: var(--radius-50);
+		color: var(--white);
+	}
+
+  	.initialsRandom1 {
+		background-color: var(--random-1);
+	}
+
+	.initialsRandom2 {
+		background-color: var(--random-4);
+	}
+
+	.initialsRandom3 {
+		background-color: var(--random-5);
+	}
+
+	.initialsRandom4 {
+		background-color: var(--random-2);
+	}
+
+	.initialsRandom5 {
+		background-color: var(--random-3);
+	}
+
+	.initialsRandom6 {
+		background-color: var(--random-6);
+	}
 `;

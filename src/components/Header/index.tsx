@@ -2,11 +2,15 @@ import logo from "../../assets/logo.png";
 import { StyledHeader } from "./style";
 import burguer_button from "../../assets/burguer_menu.svg";
 import closebutton from "../../assets/x_button.svg";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../providers/UserContext/UserContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FormButton } from "../Buttons";
 
 export function Header() {
+  const [hiddenUserMenu, setHiddenUserMenu] = useState("hidden");
+  const [hiddenNavbar, setHiddenNavbar] = useState("hidden");
+  const [activeMenuButton, setActiveMenuButton] = useState("openMenu");
   const navigate = useNavigate();
   const { user, setIsEditAddressModalOpen, setIsEditUSerModalOpen, getUser, logout } =
     useContext(UserContext);
@@ -20,6 +24,16 @@ export function Header() {
         }
       })
       .join("");
+  };
+
+  const toggle = () => {
+    if (activeMenuButton === "openMenu") {
+      setActiveMenuButton("closeMenu");
+      setHiddenNavbar("");
+    } else {
+      setActiveMenuButton("openMenu");
+      setHiddenNavbar("hidden");
+    }
   };
 
   const goToHomePage = () => {
@@ -42,46 +56,43 @@ export function Header() {
             src={logo}
             alt="Motors Shop logo"
           />
-          <img className="openMenuBtn menuButton" src={burguer_button} aria-label="Abrir Menu" />
           <img
-            className="closeMenuBtn menuButton hidden"
-            src={closebutton}
-            aria-label="Fechar Menu"
+            className={`menuButton ${activeMenuButton}`}
+            src={activeMenuButton === "openMenu" ? burguer_button : closebutton}
+            aria-label={activeMenuButton === "openMenu" ? "Abrir Menu" : "Fechar Menu"}
+            onClick={toggle}
           />
         </div>
         {!user ? (
           <nav className="headerNav hidden">
-            <Link className="lightButton1" to="/login">
-              Fazer Login
-            </Link>
-            <Link className="lightButton1" to="/signup">
-              Cadastrar
-            </Link>
+            <FormButton type="button" text="Login" customClass="brandLightButton" />
+            <FormButton type="button" text="Cadastrar" customClass="lightButton2" />
           </nav>
         ) : (
-          <nav className="headerNavLog">
-            <span className="seller_info">
+          <nav className="headerNav">
+            <span
+              className="userInfo"
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                hiddenUserMenu === "hidden" ? setHiddenUserMenu("") : setHiddenUserMenu("hidden")
+              }
+            >
               <div>{nameSub(user?.name)}</div>
               <h4>{user?.name}</h4>
             </span>
-            <section>
-              <div onClick={() => setIsEditUSerModalOpen(true)}>
-                <h1>Editar perfil</h1>
-              </div>
-              <div onClick={() => setIsEditAddressModalOpen(true)}>
-                <h1>Editar endereço</h1>
-              </div>
+            <div className={`${hiddenUserMenu} userMenu`}>
+              <span onClick={() => setIsEditUSerModalOpen(true)}>Editar perfil</span>
+              <span onClick={() => setIsEditAddressModalOpen(true)}>Editar endereço</span>
               {user?.type_of_account == "seller" ? (
-                <div>
-                  <Link to={`/announcements/user/${user?.id}`}>Meus anúncios</Link>
-                </div>
+                <span onClick={() => navigate(`/announcements/user/${user?.id}`)}>
+                  Meus anúncios
+                </span>
               ) : null}
-              <div onClick={() => logout()}>
-                <h1>Sair</h1>
-              </div>
-            </section>
+              <span onClick={() => logout()}>Sair</span>
+            </div>
           </nav>
         )}
+        <div className={`headerAfter ${hiddenNavbar}`}></div>
       </StyledHeader>
     </>
   );

@@ -11,7 +11,9 @@ export const Register = () => {
   return (
     <>
       <Header />
-      {isSuccessModalOpen ? <SuccessModal link={"/login"} text={"Sua conta foi criada com sucesso!"} /> : null}
+      {isSuccessModalOpen ? (
+        <SuccessModal link={"/login"} text={"Sua conta foi criada com sucesso!"} />
+      ) : null}
       <StyledMain>
         <RegisterUserForm />
       </StyledMain>

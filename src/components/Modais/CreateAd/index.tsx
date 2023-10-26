@@ -138,7 +138,7 @@ export const CreateAdModal = () => {
               {...register("images.gallery_image_url3")}
             />
             <div>
-              {/* <button onClick={() => setIsCreateAdModalOpen(false)}>Cancelar</button> */}
+              <button onClick={() => setIsCreateAdModalOpen(false)}>Cancelar</button>
               <button>Criar anúncio</button>
             </div>
           </form>

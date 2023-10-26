@@ -12,7 +12,7 @@ export const StyledHeader = styled.header`
   background-color: var(--grey-10);
   position: absolute;
   top: 0;
-  z-index: 1;
+  z-index: 2;
 
   .headerMenu {
     display: flex;
@@ -26,9 +26,14 @@ export const StyledHeader = styled.header`
     z-index: 1;
   }
 
+  .menuLogo {
+    cursor: pointer;
+  }
+
   .menuButton {
     position: absolute;
     right: 1rem;
+    cursor: pointer;
   }
 
   .headerNav {
@@ -43,21 +48,30 @@ export const StyledHeader = styled.header`
     justify-content: center;
     height: fit-content;
     gap: 1.5rem;
-    z-index: 1;
+    z-index: 2;
   }
-    .headerNavLog {
+
+  .userInfo {
+    font-size: 1rem;
+  }
+  .userInfo > div {
+    background-color: var(--brand-2);
+    opacity: 85%;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .userMenu {
     width: 100%;
-    padding: 2rem;
-    border-top: 2px solid var(--grey-6);
-    box-shadow: 0 40px 40px var(--grey-5);
-    background-color: inherit;
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+  }
+  .userMenu > span {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    height: fit-content;
-    gap: 1.5rem;
-    z-index: 1;
   }
 
   .headerNav.hidden {
@@ -80,24 +94,6 @@ export const StyledHeader = styled.header`
     z-index: 0;
   }
 
-  .seller_info {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--grey-2);
-    font-size: 0.875rem;
-  }
-  .seller_info > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: var(--radius-50);
-    background-color: var(--random-1);
-    color: var(--white);
-  }
-
   @media (min-width: 768.1px) {
     flex-direction: row;
     justify-content: space-between;
@@ -112,23 +108,6 @@ export const StyledHeader = styled.header`
 
     .menuLogo {
       height: 2.25rem;
-      cursor: pointer;
-    }
-
-    .headerNavLog.hidden,
-    .headerNavLog {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 100%;
-      width: fit-content;
-      padding: 0;
-      padding-top: 25px;
-      padding-left: 2.75rem;
-      border-left: 2px solid var(--grey-6);
-      border-top: none;
-      box-shadow: none;
-      flex-direction: column;
     }
 
     .headerNav.hidden,
@@ -144,22 +123,45 @@ export const StyledHeader = styled.header`
       border-top: none;
       box-shadow: none;
       flex-direction: row;
+      position: relative;
+    }
+    .userMenu {
+      position: absolute;
+      left: 0;
+      top: 4rem;
+      width: 12.5rem;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0;
+      background-color: var(--grey-9);
+      border-radius: var(--radius-4);
+      padding-left: 1.375rem;
+      box-shadow: 0px 4px 40px -10px rgba(0, 0, 0, 0.25);
+      z-index: 3;
+    }
+    .userMenu > span {
+      cursor: pointer;
+      width: 100%;
+      height: 3.125rem;
+      display: flex;
+      align-items: center;
     }
 
-    .headerNavLog > section > div{
-      height: 50px;
-      width: 150px;
-      border: 1px solid black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
+    .userMenu > span:hover {
+      text-decoration: underline;
     }
-    .openMenuBtn {
+
+    .openMenu {
       display: none;
     }
 
-    .closeMenuBtn {
+    .closeMenu {
+      display: none;
+    }
+
+    .hidden {
       display: none;
     }
   }

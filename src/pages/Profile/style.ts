@@ -1,23 +1,58 @@
 import styled from "styled-components";
 
 export const StyledMain = styled.main`
-  padding-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  margin-top: 5rem;
+  padding-top: 4.5rem;
+  gap: 4.5rem;
+  background: linear-gradient(var(--brand-1) 17rem, var(--grey-8) 17rem);
 
-  .seller_info {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--grey-2);
-    font-size: 0.875rem;
+  h2 {
+    font-family: "Lexend", sans-serif;
+    color: var(--grey-1);
+    font-size: 1.25rem;
   }
-  .seller_info > div {
+
+  .profileHeader {
+    width: 1200px;
+    background-color: var(--white);
+    border-radius: var(--radius-4);
+    padding: 3rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .profileHeader > span {
     display: flex;
     align-items: center;
+    gap: 0.7rem;
+  }
+
+  .initialsLetters {
+    width: 6.5rem;
+    height: 6.5rem;
+    display: flex;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    align-items: center;
+    background-color: var(--brand-1);
     border-radius: var(--radius-50);
-    background-color: var(--random-1);
     color: var(--white);
+    font-size: 2.25rem;
+    font-weight: 600;
+  }
+
+  .adsContainer {
+    padding: 0 150px;
+  }
+
+  .brandLightButton {
+    width: 200px;
   }
 `;

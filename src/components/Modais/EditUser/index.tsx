@@ -83,8 +83,8 @@ export const EditUserModal = () => {
             <div>
               <button>Salvar alterações</button>
             </div>
-            {/* <button>Excluir perfil</button> */}
-            {/* <button onClick={() => setIsEditUSerModalOpen(false)}>Cancelar</button> */}
+            <button>Excluir perfil</button>
+            <button onClick={() => setIsEditUSerModalOpen(false)}>Cancelar</button>
           </form>
         </dialog>
       </StyledSectionBackGround>

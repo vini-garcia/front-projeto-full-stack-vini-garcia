@@ -3,7 +3,7 @@ import { CartContext, IAd } from "../../../providers/CartProvider";
 import { StyledCart } from "./style";
 import { UserContext } from "../../../providers/UserContext/UserContext";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { FormButton } from "../../Buttons";
 
 export interface IAdCart {
   ad: IAd;
@@ -30,13 +30,13 @@ export const AdCart = ({ ad }: IAdCart) => {
       .join("");
   };
 
-  const handleGoToAd = (id:string) => {
-    navigate(`/announcements/${id}`) 
+  const handleGoToAd = (id: string) => {
+    navigate(`/announcements/${id}`);
   };
 
   return (
-    <StyledCart onClick={() => handleGoToAd(ad.id)}>
-      <div className="image_container">
+    <StyledCart>
+      <div onClick={() => handleGoToAd(ad.id)} className="image_container">
         <img src={ad.images[0].gallery_image_url} alt={ad.model_car} />
       </div>
       <div className="ad_info_container">
@@ -63,9 +63,20 @@ export const AdCart = ({ ad }: IAdCart) => {
           </div>
         </div>
       </div>
-      <div>
-        {ad.user.id == user?.id ? <button onClick={() => handleButton()}>Editar</button> : null}
-        <Link to={`/announcements/${ad.id}`}>Ver detalhes</Link>
+      <div className="buttonsContainer">
+        {ad.user.id == user?.id ? (
+          <div className="editButton" onClick={() => handleButton()}>
+            <FormButton type="button" customClass="brandLightButton fitButton" text="Editar" />
+          </div>
+        ) : null}
+        <div
+          className="detailsButton"
+          onClick={() => {
+            navigate(`/announcements/${ad.id}`);
+          }}
+        >
+          <FormButton type="button" customClass="brandLightButton fitButton" text="Ver detalhes" />
+        </div>
       </div>
     </StyledCart>
   );

@@ -108,16 +108,6 @@ export const AdPage = () => {
                     })}
                   </h3>
                 </div>
-                {/* <span className="adDetails2">
-                  <div className="brandLightContainers">
-                    Tabela FIPE:{" "}
-                    {Number(ad?.fipe_price).toLocaleString("pt-br", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
-                  </div>
-                  <div className="brandLightContainers">{ad?.type_of_fuel}</div>
-                </span> */}
               </div>
             </section>
             <section className="container2">
@@ -129,17 +119,42 @@ export const AdPage = () => {
             </section>
             <section className="container3">
               <span className="userInfo">
-                <div className="sellerInitialsSmall">{nameSub(user!.name)}</div>
-                <h4>{user!.name}</h4>
+                {!user ? (
+                  <div className="sellerInitialsSmall">{nameSub("Usuário anônimo")}</div>
+                ) : (
+                  <div className="sellerInitialsSmall">{nameSub(user!.name)}</div>
+                )}
+                {!user ? <h4>Usuário anônimo</h4> : <h4>{user!.name}</h4>}
               </span>
               <form onSubmit={handleSubmit(onSubmitFunction)}>
-                <textarea
-                  placeholder="Digitar comentário"
-                  id="comment"
-                  {...register("comment")}
-                ></textarea>
-                {errors ? <p>{errors.comment?.message}</p> : null}
-                <FormButton type="submit" customClass="brandDarkButton fitButton" text="Comentar" />
+                {!user ? (
+                  <>
+                    <textarea
+                      placeholder="Faça login para poder digitar um comentário"
+                      id="comment"
+                      disabled={true}
+                    ></textarea>
+                    <FormButton
+                      type="submit"
+                      customClass="brandDarkButton fitButton"
+                      text="Comentar"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <textarea
+                      placeholder="Digitar comentário"
+                      id="comment"
+                      {...register("comment")}
+                    ></textarea>
+                    {errors ? <p>{errors.comment?.message}</p> : null}
+                    <FormButton
+                      type="submit"
+                      customClass="brandDarkButton fitButton"
+                      text="Comentar"
+                    />
+                  </>
+                )}
               </form>
               <span className="suggestionsButtons">
                 <button

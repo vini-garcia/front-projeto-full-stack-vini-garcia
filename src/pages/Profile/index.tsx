@@ -13,6 +13,7 @@ import { EditAdModal } from "../../components/Modais/EditAd";
 import { DeleteAdModal } from "../../components/Modais/DeleteAd";
 import { DeleteAccountModal } from "../../components/Modais/DeleteUser";
 import { StyledMain } from "./style";
+import { FormButton } from "../../components/Buttons";
 
 export const Profile = () => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ export const Profile = () => {
       })
       .join("");
   };
-  // console.log(currentAds)
+
   return (
     <>
       <Header />
@@ -66,47 +67,48 @@ export const Profile = () => {
           <h2>Carregando</h2>
         ) : (
           <section>
-            <div></div>
             {currentAd == null ? (
-              <section>
-                <span className="seller_info">
-                  <div>{nameSub(user?.name)}</div>
-                  <h4>{user?.name}</h4>
-                </span>
-                <div>
+              <section className="profileHeader">
+                <div className="initialsLetters">{nameSub(user?.name)}</div>
+                <span>
                   <h2>{user?.name}</h2>
-                  <span>{user?.type_of_account}</span>
-                </div>
+                  <div>{user?.type_of_account}</div>
+                </span>
                 <p>{user.description}</p>
                 {user.type_of_account == "seller" ? (
-                  <button
+                  <div
                     onClick={() => {
                       setIsCreateAdModalOpen(true);
                     }}
                   >
-                    Criar anúncio
-                  </button>
+                    <FormButton
+                      type="submit"
+                      customClass="brandLightButton fitButton"
+                      text="Criar anúncios"
+                    />
+                  </div>
                 ) : null}
               </section>
             ) : (
-              <section>
-                <span className="seller_info">
-                  <div>{nameSub(currentAd.user?.name)}</div>
-                  <h4>{currentAd.user?.name}</h4>
-                </span>
-                <div>
+              <section className="profileHeader">
+                <div className="initialsLetters">{nameSub(currentAd.user?.name)}</div>
+                <span>
                   <h2>{currentAd.user?.name}</h2>
                   <span>Anunciante</span>
-                </div>
+                </span>
                 <p>{currentAd.user.description}</p>
                 {currentAd.user.id == user?.id ? (
-                  <button
+                  <div
                     onClick={() => {
                       setIsCreateAdModalOpen(true);
                     }}
                   >
-                    Criar anúncio
-                  </button>
+                    <FormButton
+                      type="submit"
+                      customClass="brandLightButton fitButton"
+                      text="Criar anúncios"
+                    />
+                  </div>
                 ) : null}
               </section>
             )}
@@ -115,7 +117,7 @@ export const Profile = () => {
         {currentAd == null ? (
           <h2>Nenhum anúncio a ser mostrado</h2>
         ) : (
-          <section>
+          <section className="adsContainer">
             {currentAds.length == 0 ? (
               <h2>Nenhum anúncio a ser mostrado</h2>
             ) : (

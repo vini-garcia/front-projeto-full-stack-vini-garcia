@@ -73,12 +73,6 @@ export const StyledMain = styled.main`
     gap: 1.5rem;
   }
 
-  /* .adDetailsContainer > h2 {
-    color: var(--grey-1);
-		font-family: 'Lexend', sans-serif;
-		font-size: 1.25rem;
-	} */
-
   .adDetails1 {
     width: 100%;
     height: 250px;
@@ -91,15 +85,17 @@ export const StyledMain = styled.main`
     gap: 0.75rem;
   }
 
+  .adDetails1 > span > div {
+    height: fit-content;
+    color: var(--brand-1);
+    background-color: var(--brand-3);
+    border-radius: 4px;
+    padding: 8px;
+  }
+
   .adDetails1 > h3 {
     font-size: 1rem;
   }
-
-  /* .adDetails2 {
-    display: flex;
-	height: 100px;
-    gap: 0.75rem;
-  } */
 
   .container2 {
     grid-area: 2 / 1 / 3 / 2;
@@ -156,21 +152,6 @@ export const StyledMain = styled.main`
     outline: none;
   }
 
-  /* .container3 > form > textarea::placeholder {
-    color: var(--grey-3);
-  } */
-
-  /* .container3 > form > textarea:hover:not(:disabled) {
-    background-color: var(--grey-8);
-    cursor: pointer;
-  } */
-
-  /* .container3 > form > textarea:focus-within {
-    background-color: var(--white);
-    border: 1.5px solid var(--brand-2);
-    color: var(--grey-1);
-  } */
-
   .brandDarkButton {
     width: 150px;
     position: absolute;
@@ -191,10 +172,6 @@ export const StyledMain = styled.main`
     padding: 0 0.75rem;
     min-height: 1.5rem;
   }
-
-  /* .suggestionsButtons > button:disabled {
-    cursor: default;
-  } */
 
   .container4 {
     grid-area: 1 / 3 / 2 / 4;

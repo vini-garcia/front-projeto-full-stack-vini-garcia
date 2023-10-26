@@ -13,7 +13,7 @@ export function FormButton({ text, customClass, type }: IButton) {
       {text === "Cadastrar" || text === "Login" ? (
         <Link
           className="linkButton"
-          to={text === "Cadastrar" ? "/register" : text === "Login" ? "/login" : "/"}
+          to={text === "Cadastrar" ? "/signup" : text === "Login" ? "/login" : "/"}
         >
           {text}
         </Link>

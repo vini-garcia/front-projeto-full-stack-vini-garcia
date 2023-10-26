@@ -8,7 +8,6 @@ export const StyledAdList = styled.ul`
   align-items: center;
   justify-content: space-around;
   gap: 50px;
-  overflow-x: auto;
   list-style: none;
   padding: 20px 0;
 `;
